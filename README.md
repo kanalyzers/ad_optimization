@@ -2,6 +2,7 @@
 Train a machine learning model to predict whether a particular user will click on an ad or not based on training data from the Avazu advertising platform provided by Criteo Labs 
 Background
 
+# Background
 Determining whether advertisers will click on an ad on a mobile platform is a question that encapsulates increasing market value as mobile advertising revenue explodes. In FY 2017 mobile ad revenue grew to $49.9B (+36% YoY) in 2017. This increase in the mobile ad market means mobile is increasingly relevant to overall marketing ROI and more and more data is available to train machine learning models. 
 
 ML has the potential to impact mobile marketers in several important ways. Namely, ML can play a role in campaign targeting optimization. Rather than require advertisers manually optimized bids/budgets for their campaigns, ML can automate this process, saving time.  This technology also has the ability to uncover deep correlations between particular creatives/targeting elements of a campaign and user’s propensity to click on ads that may have escaped manual optimization methods.
