@@ -14,10 +14,10 @@ Enter our dataset, which is based on eleven days worth of mobile data from the A
 --------------------------------------
 
 # Setup / Dependencies
-Install the latest versions of Python 3
-Install a text editor or IDE (optional)
-Install the Google Cloud SDK (optional)
-Install the Google Cloud CLI (optional)
+* Install the latest versions of Python 3
+* Install a text editor or IDE (optional)
+* Install the Google Cloud SDK (optional)
+* Install the Google Cloud CLI (optional)
 
 
 # Google Compute Engine 
