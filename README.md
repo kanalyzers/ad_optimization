@@ -22,13 +22,13 @@ Install the Google Cloud CLI
 ## Google Compute Engine 
 From gcloud command-line tool with your terminal ssh into VM
 '''
-gcloud compute --project "kanalyzers" ssh --zone "us-west1-b" "deep-ctr-vm"
+ gcloud compute --project "kanalyzers" ssh --zone "us-west1-b" "deep-ctr-vm"
 '''
 Create a Deep Learning Virtual Machine Image Instance 
 
-###shut down instance when finished working:
+### To shut down instance when finished working:
 '''
-gcloud compute instances stop example-instance-1 example-instance-2
+ gcloud compute instances stop example-instance-1 example-instance-2
 '''
 ## Client
 Spin up Jupyter Notebook from VM (ports only open from 5000-5010
