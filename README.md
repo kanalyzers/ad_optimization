@@ -14,37 +14,58 @@ Enter our dataset, which is based on eleven days worth of mobile data from the A
 
 # Setup / Dependencies
 Install the latest versions of Python 3
-Install an text editor or IDE (optional)
+Install a text editor or IDE (optional)
 Install the Google Cloud SDK (optional)
-Install the Google Cloud CLI
+Install the Google Cloud CLI (optional)
 
-# Server / VM
-## Google Compute Engine 
-From gcloud command-line tool with your terminal ssh into VM
-'''
+
+# Google Compute Engine 
+## Spin up a server from the VM instance
+`
+Strongly recommended to use the Compute Engine browser tool to ```ssh``` into the VM. You can access the VM via two methods:
+
+1) From gcloud command-line tool with your terminal
+```
  gcloud compute --project "kanalyzers" ssh --zone "us-west1-b" "deep-ctr-vm"
-'''
-Create a Deep Learning Virtual Machine Image Instance 
-
-### To shut down instance when finished working:
-'''
+```
+2) From the G-Suite here: https://cloud.google.com/compute/
+ 
+### To shut down the VM instance when finished working:
+```
  gcloud compute instances stop example-instance-1 example-instance-2
-'''
-## Client
-Spin up Jupyter Notebook from VM (ports only open from 5000-5010
-jupyter notebook —ip=0.0.0.0 --port=5000 --no-browser &
-Get token, prepend static IP address, paste into browser. 
+```
+## Working client side (_strongly recommeded_)
 
-## ML
+-  Spin up Jupyter Notebook from VM (ports only open from 5000-5010)
+
+```
+jupyter notebook —ip=0.0.0.0 --port=5000 --no-browser &
+```
+
+-  Copy HTML output with external ip address into browser with your token
+-  Enter token into webpage _Sam is the only one with permissions. *** obtain a token from Sam ***_ 
+
+
+### Otherwise, if you do have permissions:
+-  get link from Jupyter output 
+-  copy url with toke into browser 
+-  prepend static IP address between the parentheses
+
+
+## ML Tasks 
 preprocess data
 iteratively train and evaluate models
 
 # Tools used
-Google Cloud Compute Engine
-Visual Studio Code with SFTP
-Jupyter Notebook
+* Google Cloud Compute Engine
+* Visual Studio Code with SFTP OR browser Compute Engine ```ssh```
+* Jupyter Notebook
+* Github for Version control
+* Python3
+* pandas
 
 # Data
+
 ## Data fields
  - id: ad identifier
  - click: 0/1 for non-click/click
