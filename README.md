@@ -2,6 +2,7 @@
 Train a machine learning model to predict whether a particular user will click on an ad or not based on training data from the Avazu advertising platform provided by Criteo Labs 
 Background
 
+# Background
 Determining whether advertisers will click on an ad on a mobile platform is a question that encapsulates increasing market value as mobile advertising revenue explodes. In FY 2017 mobile ad revenue grew to $49.9B (+36% YoY) in 2017. This increase in the mobile ad market means mobile is increasingly relevant to overall marketing ROI and more and more data is available to train machine learning models. 
 
 ML has the potential to impact mobile marketers in several important ways. Namely, ML can play a role in campaign targeting optimization. Rather than require advertisers manually optimized bids/budgets for their campaigns, ML can automate this process, saving time.  This technology also has the ability to uncover deep correlations between particular creatives/targeting elements of a campaign and user’s propensity to click on ads that may have escaped manual optimization methods.
@@ -13,38 +14,59 @@ Enter our dataset, which is based on eleven days worth of mobile data from the A
 --------------------------------------
 
 # Setup / Dependencies
-Install the latest versions of Python 3
-Install an text editor or IDE (optional)
-Install the Google Cloud SDK (optional)
-Install the Google Cloud CLI
+* Install the latest versions of Python 3
+* Install a text editor or IDE (optional)
+* Install the Google Cloud SDK (optional)
+* Install the Google Cloud CLI (optional)
 
-# Server / VM
-## Google Compute Engine 
-From gcloud command-line tool with your terminal ssh into VM
-'''
-gcloud compute --project "kanalyzers" ssh --zone "us-west1-b" "deep-ctr-vm"
-'''
-Create a Deep Learning Virtual Machine Image Instance 
 
-###shut down instance when finished working:
-'''
-gcloud compute instances stop example-instance-1 example-instance-2
-'''
-## Client
-Spin up Jupyter Notebook from VM (ports only open from 5000-5010
+# Google Compute Engine 
+## Spin up a server from the VM instance
+`
+Strongly recommended to use the Compute Engine browser tool to ```ssh``` into the VM. You can access the VM via two methods:
+
+1) From gcloud command-line tool with your terminal
+```
+ gcloud compute --project "kanalyzers" ssh --zone "us-west1-b" "deep-ctr-vm"
+```
+2) From the G-Suite here: https://cloud.google.com/compute/
+ 
+### To shut down the VM instance when finished working:
+```
+ gcloud compute instances stop example-instance-1 example-instance-2
+```
+## Working client side (_strongly recommeded_)
+
+-  Spin up Jupyter Notebook from VM (ports only open from 5000-5010)
+
+```
 jupyter notebook —ip=0.0.0.0 --port=5000 --no-browser &
-Get token, prepend static IP address, paste into browser. 
+```
 
-## ML
+-  Copy HTML output with external ip address into browser with your token
+-  Enter token into webpage _Sam is the only one with permissions. *** obtain a token from Sam ***_ 
+
+
+### Otherwise, if you do have permissions:
+-  get link from Jupyter output 
+-  copy url with toke into browser 
+-  prepend static IP address between the parentheses
+
+
+## ML Tasks 
 preprocess data
 iteratively train and evaluate models
 
 # Tools used
-Google Cloud Compute Engine
-Visual Studio Code with SFTP
-Jupyter Notebook
+* Google Cloud Compute Engine
+* Visual Studio Code with SFTP OR browser Compute Engine ```ssh```
+* Jupyter Notebook
+* Github for Version control
+* Python3
+* pandas
 
 # Data
+
 ## Data fields
  - id: ad identifier
  - click: 0/1 for non-click/click
