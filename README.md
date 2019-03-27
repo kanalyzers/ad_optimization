@@ -27,11 +27,11 @@ Strongly recommended to use the Compute Engine browser tool to ```ssh``` into th
 
 1) From gcloud command-line tool with your terminal
 ```
- gcloud compute --project "kanalyzers" ssh --zone "us-west1-b" "deep-ctr-vm"
+ gcloud compute --project "xx" ssh --zone "xx" "xx"
 ```
 2) From the G-Suite here: https://cloud.google.com/compute/
  
-### To shut down the VM instance when finished working:
+### To shut down the VM instance:
 ```
  gcloud compute instances stop example-instance-1 example-instance-2
 ```
