@@ -1,6 +1,6 @@
 # Objective
 Train a machine learning model to predict whether a particular user will click on an ad or not based on training data from the Avazu advertising platform provided by Criteo Labs 
-Background
+
 
 # Background
 Determining whether advertisers will click on an ad on a mobile platform is a question that encapsulates increasing market value as mobile advertising revenue explodes. In FY 2017 mobile ad revenue grew to $49.9B (+36% YoY) in 2017. This increase in the mobile ad market means mobile is increasingly relevant to overall marketing ROI and more and more data is available to train machine learning models. 
@@ -27,11 +27,11 @@ Strongly recommended to use the Compute Engine browser tool to ```ssh``` into th
 
 1) From gcloud command-line tool with your terminal
 ```
- gcloud compute --project "kanalyzers" ssh --zone "us-west1-b" "deep-ctr-vm"
+ gcloud compute --project "xx" ssh --zone "xx" "xx"
 ```
 2) From the G-Suite here: https://cloud.google.com/compute/
  
-### To shut down the VM instance when finished working:
+### To shut down the VM instance:
 ```
  gcloud compute instances stop example-instance-1 example-instance-2
 ```
@@ -42,20 +42,14 @@ Strongly recommended to use the Compute Engine browser tool to ```ssh``` into th
 ```
 jupyter notebook —ip=0.0.0.0 --port=5000 --no-browser &
 ```
-
--  Copy HTML output with external ip address into browser with your token
--  Enter token into webpage _Sam is the only one with permissions. *** obtain a token from Sam ***_ 
-
-
-### Otherwise, if you do have permissions:
 -  get link from Jupyter output 
--  copy url with toke into browser 
--  prepend static IP address between the parentheses
+-  copy url with token into browser 
+-  copy static IP address between the parentheses
 
 
 ## ML Tasks 
-preprocess data
-iteratively train and evaluate models
+_ preprocess data
+_ iteratively train and evaluate models
 
 # Tools used
 * Google Cloud Compute Engine
