@@ -26,8 +26,6 @@ def hello():
     message = "Hello, World"
     return render_template('index.html', message=message)
 
-    #app = Flask(__name__, template_folder='template')
-
 
 @app.errorhandler(500)
 def server_error(e):
