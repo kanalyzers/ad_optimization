@@ -6464,3 +6464,6 @@ License - nucleoapp.com/license/
 .dropdown:hover .dropdown-content {display: block;}
 
 /*.dropdown:hover .dropbtn {background-color: #ddd;}*/
+
+.row-centered {text-align:center;}
+.col-centered { display:inline-block; float:none; margin-right:-4px;}
