@@ -14,7 +14,7 @@
 
 # [START gae_flex_quickstart]
 import os
-from gevent.pywsgi import WSGIServer
+#from gevent.pywsgi import WSGIServer
 
 from flask import Flask, request
 from google.cloud import storage
@@ -24,10 +24,25 @@ from flask import render_template
 app = Flask(__name__)
 
 
-@app.route('/')
-def hello():
+@app.route('/index.html')
+def index():
     message = "Click"
     return render_template('index.html', message=message)
+
+
+@app.route('/form.html')
+def form():
+    return render_template('form.html')
+
+
+@app.route('/aboutus.html')
+def aboutus():
+    return render_template('aboutus.html')
+
+
+@app.route('/tables.html')
+def tables():
+    return render_template('tables.html')
 
 
 @app.errorhandler(500)
@@ -42,8 +57,7 @@ def server_error(e):
 if __name__ == '__main__':
     # This is used when running locally. Gunicorn is used to run the
     # application on Google App Engine. See entrypoint in app.yaml.
-    #app.run(host='127.0.0.1', port=8080, debug=True)
-    http_server = WSGIServer(('', 5000), app)
-    http_server.serve_forever()
-
-# [END gae_flex_quickstart]
+    app.run(host='127.0.0.1', port=8080, debug=True)
+    # http_server = WSGIServer(('', 5000), app)
+    # http_server.serve_forever()
+    # [END gae_flex_quickstart]
