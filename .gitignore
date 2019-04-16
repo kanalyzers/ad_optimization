@@ -1,7 +1,7 @@
 node_modules
-#flask_site/env
-#flask_site/package-lock.json
+flask_site/env
+flask_site/package-lock.json
 package-lock.json
-#flask_site/.vscode
-#flask_site/lib
+flask_site/.vscode
+flask_site/lib
 .gitignore
