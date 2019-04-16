@@ -13,9 +13,11 @@
 # limitations under the License.
 
 # [START gae_flex_quickstart]
-import logging
+import os
 
-from flask import Flask
+from flask import Flask, request
+from google.cloud import storage
+import logging
 from flask import render_template
 
 app = Flask(__name__)
