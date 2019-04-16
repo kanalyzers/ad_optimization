@@ -23,8 +23,13 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    message = "Hello, World"
+    message = "Click"
     return render_template('index.html', message=message)
+
+
+@app.route('/form.html')
+def hello():
+    return render_template('form.html')
 
 
 @app.errorhandler(500)
