@@ -6467,3 +6467,29 @@ License - nucleoapp.com/license/
 
 .row-centered {text-align:center;}
 .col-centered { display:inline-block; float:none; margin-right:-4px;}
+
+
+/*CUSTOM DROP*/
+
+.drop-content {
+/*  display: none;*/
+/*  position: absolute;*/
+/*  background-color: #0099CC;*/
+/*  min-width: 160px;*/
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+/*  padding: 12px 16px;*/
+/*  z-index: 1;*/
+  border-radius: 5px;
+}
+
+.rect {
+    fill: steelblue;
+}
+
+.bar {
+    fill: steelblue;
+}
+
+.bar:hover {
+    fill: orange;
+}
