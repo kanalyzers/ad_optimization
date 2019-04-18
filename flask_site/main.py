@@ -20,6 +20,8 @@ from flask import Flask, request
 from google.cloud import storage
 import logging
 from flask import render_template
+from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 
@@ -27,6 +29,11 @@ app = Flask(__name__)
 MODEL_BUCKET = 'kanalyzers.appspot.com'
 MODEL_FILENAME = 'tf_model.h5'
 MODEL = None
+
+# upload folder
+UPLOAD_FOLDER = '/path/to/the/uploads'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
 
 @app.before_first_request
 def _load_model():
@@ -37,6 +44,7 @@ def _load_model():
     s = blob.download_as_string()
 
     s
+
 
 @app.route('/index.html')
 def index():
@@ -59,6 +67,13 @@ def tables():
     return render_template('tables.html')
 
 
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        f = request.files['the_file']
+        f.save('/var/www/uploads/' + secure_filename(f.filename))
+
+
 @app.errorhandler(500)
 def server_error(e):
     logging.exception('An error occurred during a request.')
@@ -72,8 +87,6 @@ if __name__ == '__main__':
     # This is used when running locally. Gunicorn is used to run the
     # application on Google App Engine. See entrypoint in app.yaml.
     app.run(host='127.0.0.1', port=8080, debug=True)
-
     # http_server = WSGIServer(('', 5000), app)
     # http_server.serve_forever()
     # [END gae_flex_quickstart]
-
