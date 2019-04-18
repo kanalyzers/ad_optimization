@@ -13,14 +13,16 @@
 # limitations under the License.
 
 # [START gae_flex_quickstart]
-import logging
-from google.cloud import storage
-from flask import Flask
 import os
-#from google.appengine.api import app_identity
+#from gevent.pywsgi import WSGIServer
 
+from flask import Flask, request
+from google.cloud import storage
+import logging
+from flask import render_template
 
 app = Flask(__name__)
+
 
 MODEL_BUCKET = 'kanalyzers.appspot.com'
 MODEL_FILENAME = 'tf_model.h5'
@@ -35,16 +37,26 @@ def _load_model():
     s = blob.download_as_string()
 
     s
-    #MODEL = pickle.loads(s)
-    # gcs_file = storage.open(MODEL_FILENAME)
-    # contents = gcs_file.read()
-    # gcs_file.close()
+
+@app.route('/index.html')
+def index():
+    message = "Click"
+    return render_template('index.html', message=message)
 
 
-@app.route('/')
-def hello():
-    """Return a friendly HTTP greeting."""
-    return 'Hola Mundo! I like wonton soup'
+@app.route('/form.html')
+def form():
+    return render_template('form.html')
+
+
+@app.route('/aboutus.html')
+def aboutus():
+    return render_template('aboutus.html')
+
+
+@app.route('/tables.html')
+def tables():
+    return render_template('tables.html')
 
 
 @app.errorhandler(500)
@@ -60,4 +72,8 @@ if __name__ == '__main__':
     # This is used when running locally. Gunicorn is used to run the
     # application on Google App Engine. See entrypoint in app.yaml.
     app.run(host='127.0.0.1', port=8080, debug=True)
-# [END gae_flex_quickstart]
+
+    # http_server = WSGIServer(('', 5000), app)
+    # http_server.serve_forever()
+    # [END gae_flex_quickstart]
+
