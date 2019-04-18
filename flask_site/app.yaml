@@ -10,9 +10,15 @@ runtime_config:
 # for production use. For more information, see:
 # https://cloud.google.com/appengine/docs/flexible/python/configuring-your-app-with-app-yaml
 
-# manual_scaling:
-#   instances: 1
-# resources:
-#   cpu: 1
-#   memory_gb: 0.5
-#   disk_size_gb: 10
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+
+env_variables:
+    # The app will look for the model file at: gs://MODEL_BUCKET/MODEL_FILENAME
+    MODEL_BUCKET: kanalyzers.appspot.com
+    MODEL_FILENAME: tf_model.h5	
+

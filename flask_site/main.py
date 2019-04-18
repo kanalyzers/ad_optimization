@@ -24,6 +24,20 @@ from flask import render_template
 app = Flask(__name__)
 
 
+MODEL_BUCKET = 'kanalyzers.appspot.com'
+MODEL_FILENAME = 'tf_model.h5'
+MODEL = None
+
+@app.before_first_request
+def _load_model():
+    #global MODEL
+    client = storage.Client()
+    bucket = client.get_bucket(MODEL_BUCKET)
+    blob = bucket.get_blob(MODEL_FILENAME)
+    s = blob.download_as_string()
+
+    s
+
 @app.route('/index.html')
 def index():
     message = "Click"
@@ -58,6 +72,8 @@ if __name__ == '__main__':
     # This is used when running locally. Gunicorn is used to run the
     # application on Google App Engine. See entrypoint in app.yaml.
     app.run(host='127.0.0.1', port=8080, debug=True)
+
     # http_server = WSGIServer(('', 5000), app)
     # http_server.serve_forever()
     # [END gae_flex_quickstart]
+
