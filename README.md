@@ -35,7 +35,7 @@ Strongly recommended to use the Compute Engine browser tool to ```ssh``` into th
 ```
  gcloud compute instances stop example-instance-1 example-instance-2
 ```
-## Working client side (_strongly recommeded_)
+## Jupyter Notebook from VM instance
 
 -  Spin up Jupyter Notebook from VM (ports only open from 5000-5010)
 
@@ -58,6 +58,8 @@ _ iteratively train and evaluate models
 * Github for Version control
 * Python3
 * pandas
+* flask
+* Tensorflow, scikit learn, etc. 
 
 # Data
 
