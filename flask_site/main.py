@@ -31,7 +31,7 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
-@app.route('/index.html', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
@@ -69,9 +69,14 @@ def uploads():
 
 
 @app.route('/index.html')
-def index():
+def hello():
     message = "Click"
     return render_template('index.html', message=message)
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 
 @app.route('/form.html')
