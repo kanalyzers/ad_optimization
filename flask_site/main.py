@@ -78,8 +78,6 @@ def _load_model():
     s
 
 #  routes
-
-
 @app.route('/uploads')
 def uploads():
     pass
