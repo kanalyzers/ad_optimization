@@ -40,7 +40,7 @@ Strongly recommended to use the Compute Engine browser tool to ```ssh``` into th
 -  Spin up Jupyter Notebook from VM (ports only open from 5000-5010)
 
 ```
-jupyter notebook —ip=0.0.0.0 --port=5000 --no-browser &
+jupyter notebook —ip=0.0.0.0 --port=8888 --no-browser &
 ```
 -  get link from Jupyter output 
 -  copy url with token into browser 
