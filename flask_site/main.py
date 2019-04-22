@@ -28,10 +28,16 @@ bucket = client.get_bucket('kanalyzers.appspot.com')
 # verify bucket
 print('Bucket {} created.'.format(bucket.name))
 
+# blob actions
 blob = bucket.blob('saved_model.pb')
 blob.upload_from_string('this is test content!')
+# blob2 = bucket.blob('remote/path/storage.txt')
 
+# test uploading test.csv from uploads/
+blob2.upload_from_filename(filename='/flask_site/uploads')
+blob.upload_from_string('this is test content!')
 
+# bucket name vars for something sam was doing
 MODEL_BUCKET = 'kanalyzers.appspot.com'
 MODEL_FILENAME = 'tf_model.h5'
 MODEL = None
