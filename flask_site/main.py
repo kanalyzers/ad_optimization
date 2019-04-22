@@ -9,7 +9,14 @@ from flask import render_template
 from werkzeug.utils import secure_filename
 
 
+from oauth2client.client import GoogleCredentials
+from googleapiclient.discovery import build
+
 app = Flask(__name__)
+
+# build a service obj
+ml = discovery.build('ml','v1')
+service = build('ml', 'v1')
 
 
 MODEL_BUCKET = 'kanalyzers.appspot.com'
