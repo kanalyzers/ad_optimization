@@ -26,7 +26,8 @@ https://cloud.google.com/python/setup
  - virtualenv --python python3 env
  - source env/bin/activate
  - pip install google-cloud-storage
- - when you're done developing run: pip install google-cloud-storage
+ - pip install -r requirements.txt
+ - when you're done developing run: ``` deactivate```
 
 # google cloud api
 https://googleapis.github.io/google-cloud-python/latest/
