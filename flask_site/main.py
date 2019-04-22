@@ -9,9 +9,35 @@ from flask import render_template
 from werkzeug.utils import secure_filename
 
 
+from oauth2client.client import GoogleCredentials
+#from googleapiclient.discovery import build
+
+# Imports the Google Cloud client library
+from google.cloud import storage
+
 app = Flask(__name__)
 
+# build a service obj
+ml = discovery.build('ml','v1')
+service = build('ml', 'v1')
 
+# Instantiates a client
+client = storage.Client()
+# creates bucket
+bucket = client.get_bucket('kanalyzers.appspot.com')
+# verify bucket
+print('Bucket {} created.'.format(bucket.name))
+
+# blob actions
+blob = bucket.blob('saved_model.pb')
+blob.upload_from_string('this is test content!')
+# blob2 = bucket.blob('remote/path/storage.txt')
+
+# test uploading test.csv from uploads/
+blob2.upload_from_filename(filename='/flask_site/uploads')
+blob.upload_from_string('this is test content!')
+
+# bucket name vars for something sam was doing
 MODEL_BUCKET = 'kanalyzers.appspot.com'
 MODEL_FILENAME = 'tf_model.h5'
 MODEL = None
