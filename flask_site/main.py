@@ -15,8 +15,6 @@ from googleapiclient.discovery import build
 # Imports the Google Cloud client library
 from google.cloud import storage
 
-export GOOGLE_APPLICATION_CREDENTIALS="[PATH]"
-
 app = Flask(__name__)
 
 # build a service obj
