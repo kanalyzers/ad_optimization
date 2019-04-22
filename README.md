@@ -28,6 +28,8 @@ https://cloud.google.com/python/setup
  - pip install google-cloud-storage
  - when you're done developing run: pip install google-cloud-storage
 
+# google cloud api
+https://googleapis.github.io/google-cloud-python/latest/
  
 # Google Compute Engine 
 ## Spin up a server from the VM instance
