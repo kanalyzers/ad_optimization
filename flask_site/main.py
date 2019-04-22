@@ -12,8 +12,10 @@ from werkzeug.utils import secure_filename
 from oauth2client.client import GoogleCredentials
 from googleapiclient.discovery import build
 
+# Imports the Google Cloud client library
 from google.cloud import storage
 
+export GOOGLE_APPLICATION_CREDENTIALS="[PATH]"
 
 app = Flask(__name__)
 
@@ -21,8 +23,13 @@ app = Flask(__name__)
 ml = discovery.build('ml','v1')
 service = build('ml', 'v1')
 
+# Instantiates a client
 client = storage.Client()
+# creates bucket
 bucket = client.get_bucket('kanalyzers.appspot.com')
+# verify bucket
+print('Bucket {} created.'.format(bucket.name))
+
 blob = bucket.blob('saved_model.pb')
 blob.upload_from_string('this is test content!')
 
