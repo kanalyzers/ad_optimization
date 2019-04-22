@@ -16,10 +16,19 @@ Enter our dataset, which is based on eleven days worth of mobile data from the A
 # Setup / Dependencies
 * Install the latest versions of Python 3
 * Install a text editor or IDE (optional)
-* Install the Google Cloud SDK (optional)
+* Install the Google Cloud SDK
 * Install the Google Cloud CLI (optional)
 
+# configure development environment
+https://cloud.google.com/python/setup
+ - pip install --upgrade virtualenv
+ - cd your-project
+ - virtualenv --python python3 env
+ - source env/bin/activate
+ - pip install google-cloud-storage
+ - when you're done developing run: pip install google-cloud-storage
 
+ 
 # Google Compute Engine 
 ## Spin up a server from the VM instance
 `
