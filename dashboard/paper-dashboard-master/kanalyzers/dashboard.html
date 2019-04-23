@@ -106,21 +106,7 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item btn-rotate dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <p>test</p>
-<!--
-                  <p>
-                    <span class="d-lg-none d-md-block">Some Actions</span>
-                  </p>
--->
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </li>
+
               <li class="nav-item">
                 <a class="nav-link btn-rotate" href="#pablo">
                   <i class="nc-icon nc-settings-gear-65"></i>
@@ -157,6 +143,7 @@
               </div>
               <div class="card-footer">
                   <p class="stats offset-md-4"> Upload Here </p>
+
               </div>
             </div>
           </a>
@@ -173,7 +160,7 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Revenue</p>
+                      <p class="card-category">Expected Revenue</p>
                       <p class="card-title">$ 1,345
                         <p>
                     </div>
@@ -241,30 +228,17 @@
             <div class="card ">
               <div class="card-header ">
                 <h5 class="card-title"> Graph Settings:</h5>
-                <p class="card-category">Select Features to Graph:</p>
+                <p class="card-category">Select a feature to graph against clicks:</p>
               </div>
-            <div class="card-header">
-                <h6> X-Axis Feature:</h6> 
-                <div class="dropdown ">
-                    <button class="dropbtn">Select X Feature 
-                      <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                      <a href="#">Feature 1</a>
-                      <a href="#">Feature 2</a>
-                      <a href="#">Feature 3</a>
-                    </div>
-                </div>    
-            </div>
                 
             <div class="card-header">
-                <h6> Y-Axis Feature:</h6> 
+                <h6> Feature:</h6> 
                 <div class="dropdown">
                     <button class="dropbtn" id="drop" align=center> </button>
                     
                 </div> 
             </div>
-                          
+            <br>         
             </div>
             </div>
             </div> <!--             end of col-->
@@ -289,7 +263,7 @@
 
 
             // Get the data
-            d3.csv("1200_sample.csv", function(error, data) {
+            d3.csv("data/choice_features.csv", function(error, data) {
                 if (error) throw error;
                 
                 // Set the ranges
@@ -370,73 +344,77 @@
                       .data(clicksTotal)
                       .enter()
                       .append("rect")
-                          .attr("class", "bar")
+                          .attr("class", "rectangle")
                           .attr("x", function(d) { return x(d.key); })
                           .attr("y", function(d) { return y(d.value); })
                           .attr("width", x.bandwidth())
                           .attr("height", function(d) { return height - y(d.value); });
 
                 var selector = d3.select("#drop")
-                    .append("select")
-                    .attr("id","dropdown")
-                    .attr("class","drop-content")
-                    .on("change", function(d){
-                        selection = document.getElementById("dropdown");
-                        
-                        console.log(selection.value)
-                        var chartTitle = "Clicks by " + selection.value;
-                        d3.select("#bar-graph-title")
-                            .text(chartTitle);
-                        
-                        var clicksTotal = d3.nest()
-                              .key(function(d) { return +d[selection.value]; }).sortKeys(d3.ascending)
-                              .rollup(function(v) { return d3.sum(v, function(d) { return d.click; }); })
-                              .entries(data);
+                .append("select")
+                .attr("id","dropdown")
+                .attr("class","drop-content")
+                .on("change", function(d){
+                    selection = document.getElementById("dropdown");    
                     
-                        console.log(selection.value)
-                        console.log("TotalClicks")
-                        console.log(JSON.stringify(clicksTotal));
+//                    update bar chart title
+                    console.log(selection.value)
+                    var chartTitle = "Clicks by " + selection.value;
+                    d3.select("#bar-graph-title")
+                        .text(chartTitle);
+
+//                    recompute data values
+                    var clicksTotal = d3.nest()
+                          .key(function(d) { return +d[selection.value]; }).sortKeys(d3.ascending)
+                          .rollup(function(v) { return d3.sum(v, function(d) { return d.click; }); })
+                          .entries(data);
+
+                    console.log(selection.value)
+                    console.log("TotalClicks - DONE")
+                    console.log(JSON.stringify(clicksTotal));
+
+                    // Adjust y-axis
+                    var ymax = d3.max(clicksTotal, function(d){
+                        return d.value;});
+
+                    y.domain([0, ymax]);
+                    yAxis.scale(y);
+
+                    // Adjust x-axis
+                    console.log("New x-axis keys:")
+                    x.domain(clicksTotal.map(function(d){ 
+                        console.log(d.key)
+                        return d.key;}));  
+                    xAxis.scale(x);
+
+                    console.log("Height/X/Y")
+                    
+                    svg.selectAll("rect").remove()
+                    
+                    // Draw the new bars
+                    svg.selectAll(".rectangle")
+                        .data(clicksTotal)
+                        .enter()
+                        .append("rect")
+                        .attr("class", "rectangle")
+
+                        .attr("x", function(d){
+                            console.log(x(d.key))
+                            return x(d.key);
+                        })
+
+                        .attr("y", function(d){
+                            console.log(y(d.value))
+                            return y(d.value);
+                        })
                         
-                        // Adjust y-axis
-                        var ymax = d3.max(clicksTotal, function(d){
-                            return d.value;});
-                        
-                        y.domain([0, ymax]);
-                        yAxis.scale(y);
-                        
-                        // Adjust x-axis
-                        x.domain(clicksTotal.map(function(d){ 
-                            console.log(d.key)
-                            return d.key;}));  
-                        xAxis.scale(x);
-                        
-                        console.log("Height/X/Y")
-                        // Draw the new bars
-                        svg.selectAll("rect")
-                                        .remove()
-                                        .data(clicksTotal)
-                                        .enter()
-                                        .append("rect")
-                                            .attr("height", function(d){
-                                                newh = height - y(d.value)
-                                                console.log(newh)
-                                                return newh;
-                                            })
-//                                            console.log("x,y");
-                                            .attr("x", function(d){
-                                                console.log(x(d.key))
-                                                return x(d.key);
-                                            })
-                                            .attr("y", function(d){
-                                                console.log(y(d.value))
-                                                return y(d.value);
-                                            })
-                                            .attr("width", x.bandwidth())
-//                                            .ease(d3.easeLinear)
-//                                            .select("#bar-graph-title")
-//                                            .text(function(d){
-//                                                return d.State + " : " + d[selection.value];
-//                                            });
+                        .attr("width", width/(clicksTotal.length + 1))
+
+                        .attr("height", function(d){
+                            newh = height - y(d.value)
+//                            console.log("HEIGHT: " + newh)
+                            return newh;
+                        })
                     
                     // Apply scaled y axis    
                     d3.selectAll("g.y.axis")
