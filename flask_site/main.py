@@ -9,8 +9,9 @@ from flask import render_template
 from werkzeug.utils import secure_filename
 try:
     from io import StringIO # Python 3	    from io import StringIO # Python 3
-except:	except:
-    from StringIO import StringIO	    from io import BytesIO as StringIO
+except:
+    from StringIO import StringIO	    
+    from io import BytesIO as StringIO
 
 from oauth2client.client import GoogleCredentials
 from googleapiclient import discovery
@@ -23,11 +24,6 @@ from googleapiclient.discovery import build
 from google.oauth2 import service_account
 
 app = Flask(__name__)
-
-SCOPES = ['https://www.googleapis.com/auth/cloud-platform', 'https://ml.googleapis.com/$discovery/rest?version=v1']
-
-SERVICE_ACCOUNT_FILE = '/Users/pirakoch/Downloads/kanalyzers-9ede60ab88e7.json'
-credentials = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 
 # build a service obj
 ml = discovery.build('ml', 'v1')
@@ -125,13 +121,14 @@ def uploaded_file(filename):
     # Sending uploaded CSV to our Cloud ML model
     service = discovery.build('ml', 'v1')
     name = 'projects/{}/models/{}'.format('kanalyzers', 'juliatensorflow')
-    instances = csvtojson(filename)
+    instances=[12,1324,34,56]
+    # instances = csvtojson(filename)
 
     # return instances.getvalue()
-
     response = service.projects().predict(
         name=name,
-        body={"instances": instances.getvalue()}
+        body={"instances": instances}
+        # body={"instances": instances.getvalue()}
     ).execute()
 
     if 'error' in response:
@@ -143,6 +140,10 @@ def uploaded_file(filename):
 
     return
 
+with open("main.py") as fp:
+    for i, line in enumerate(fp):
+        if "\xe2" in line:
+            print i, repr(line)
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -219,7 +220,7 @@ def server_error(e):
 if __name__ == '__main__':
     # This is used when running locally. Gunicorn is used to run the
     # application on Google App Engine. See entrypoint in app.yaml.
-    app.run(host='127.0.0.1', port=8080, debug=True)
-    # http_server = WSGIServer(('', 5000), app)
-    # http_server.serve_forever()
+    #app.run(host='127.0.0.1', port=8080, debug=True)
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
     # [END gae_flex_quickstart]
