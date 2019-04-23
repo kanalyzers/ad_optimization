@@ -6482,14 +6482,10 @@ License - nucleoapp.com/license/
   border-radius: 5px;
 }
 
-.rect {
+.rectangle {
     fill: steelblue;
 }
 
-.bar {
-    fill: steelblue;
-}
-
-.bar:hover {
+.rectangle:hover {
     fill: orange;
 }
