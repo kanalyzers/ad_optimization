@@ -15,13 +15,13 @@ from io import StringIO
 import csv
 import json
 import pandas as pd
-#from googleapiclient.discovery import build
+from googleapiclient.discovery import build
 
 app = Flask(__name__)
 
 # build a service obj
-#ml = discovery.build('ml','v1')
-# service = build('ml', 'v1')
+ml = discovery.build('ml', 'v1')
+service = build('ml', 'v1')
 
 # Instantiates a client
 client = storage.Client()
