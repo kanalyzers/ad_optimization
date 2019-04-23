@@ -8,12 +8,14 @@ import logging
 from flask import render_template
 from werkzeug.utils import secure_filename
 
-
 from oauth2client.client import GoogleCredentials
+from googleapiclient import discovery
+from googleapiclient import errors
+from io import StringIO
+import csv
+import json
+import pandas as pd
 from googleapiclient.discovery import build
-
-# Imports the Google Cloud client library
-from google.cloud import storage
 
 app = Flask(__name__)
 
@@ -34,13 +36,16 @@ blob.upload_from_string('this is test content!')
 # blob2 = bucket.blob('remote/path/storage.txt')
 
 # test uploading test.csv from uploads/
-blob2.upload_from_filename(filename='/flask_site/uploads')
-blob.upload_from_string('this is test content!')
+# blob2.upload_from_filename(filename='/flask_site/uploads')
+# blob.upload_from_string('this is test content!')
 
 # bucket name vars for something sam was doing
+PROJECT_NAME = 'kanalyzers'
 MODEL_BUCKET = 'kanalyzers.appspot.com'
 MODEL_FILENAME = 'tf_model.h5'
 MODEL = None
+
+
 
 # upload folder
 UPLOAD_FOLDER = 'uploads'
@@ -51,10 +56,88 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def csvtojson(filename):
+    jsonfile = StringIO()
+    csvfile = open(UPLOAD_FOLDER+'/'+filename, 'r')
+    # fieldnames = ("C1", "banner_pos", "site_domain", "site_category", "app_domain",
+    # "app_category", "device_id", "device_ip", "device_model", "device_type",
+    # "device_conn_type", "C15", "C16", "date", "time", "user_id", "device_ip_count",
+    # "device_id_count", "user_count", "user_hour_count", "user_bagged")
+    # reader = csv.DictReader( csvfile, fieldnames)
+    #reader = csv.DictReader( csvfile )
+    reader = csv.reader(csvfile)
+    for row in reader:
+        json.dump(row, jsonfile)
+        jsonfile.write('\n')
+    return jsonfile
+
+
+    # jsonfile = StringIO()
+    # csvfile = open(UPLOAD_FOLDER+'/'+filename, 'r')
+    # fieldnames = ("C1", "banner_pos", "site_domain", "site_category", "app_domain",
+    #     "app_category", "device_id", "device_ip", "device_model", "device_type",
+    #     "device_conn_type", "C15", "C16", "date", "time", "user_id", "device_ip_count",
+    #     "device_id_count", "user_count", "user_hour_count", "user_bagged")
+    # fieldfixers = {
+    #     "C1": int,
+    #     "banner_pos": int,
+    #     "C1": int,
+    #     "site_domain": int,
+    #     "site_category": int,
+    #     "app_domain": int,
+    #     "app_category": int,
+    #     "device_id": int,
+    #     "device_ip": int,
+    #     "device_model": int,
+    #     "device_type": int,
+    #     "device_conn_type": int,
+    #     "C15": int,
+    #     "C16": int,
+    #     "date": int,
+    #     "time": int,
+    #     "user_id": int,
+    #     "device_ip_count": int,
+    #     "device_id_count": int,
+    #     "user_count": int,
+    #     "user_hour_count": int,
+    #     "user_bagged": int,
+    # }
+    # reader = csv.DictReader(csvfile, fieldnames)
+    #
+    # for row in reader:
+    #     for key,value in row.items():
+    #         ffunc = fieldfixers.get(key)
+    #         if ffunc:
+    #             row[key] = ffunc(value)
+    #     json.dump(row, jsonfile, sort_keys=False, separators=(',', ':'))
+    #     jsonfile.write(',')
+    #     jsonfile.write('\n')
+    # return jsonfile
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    #Sending uploaded CSV to our Cloud ML model
+    service = discovery.build('ml', 'v1')
+    name = 'projects/{}/models/{}'.format('kanalyzers', 'juliatensorflow')
+    instances = csvtojson(filename)
+
+
+    #return instances.getvalue()
+
+
+    response = service.projects().predict(
+        name=name,
+        body={"instances": instances.getvalue()}
+    ).execute()
+
+    if 'error' in response:
+        raise RuntimeError(response['error'])
+
+    send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+    print(response['predictions'])
+
+    return
 
 
 @app.route('/', methods=['GET', 'POST'])
