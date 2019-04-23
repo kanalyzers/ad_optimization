@@ -57,16 +57,9 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def csvtojson(filename):
-    #jsonfile = StringIO()
-    #jsonfile = open(UPLOAD_FOLDER+'/'+filename, 'w')
     csvfile = open(UPLOAD_FOLDER+'/'+filename, 'r')
-    # fieldnames = ("C1", "banner_pos", "site_domain", "site_category", "app_domain",
-    # "app_category", "device_id", "device_ip", "device_model", "device_type",
-    # "device_conn_type", "C15", "C16", "date", "time", "user_id", "device_ip_count",
-    # "device_id_count", "user_count", "user_hour_count", "user_bagged")
-    # reader = csv.DictReader( csvfile, fieldnames)
-    #reader = csv.DictReader( csvfile )
     reader = csv.reader(csvfile)
+    next(reader)
     ret = []
     for row in reader:
         cur = []
@@ -76,53 +69,6 @@ def csvtojson(filename):
 
     return ret
 
-    # for row in reader:
-    #     json.dump(row, jsonfile)
-    #     jsonfile.write('\n')
-    # return jsonfile
-
-
-    # jsonfile = StringIO()
-    # csvfile = open(UPLOAD_FOLDER+'/'+filename, 'r')
-    # fieldnames = ("C1", "banner_pos", "site_domain", "site_category", "app_domain",
-    #     "app_category", "device_id", "device_ip", "device_model", "device_type",
-    #     "device_conn_type", "C15", "C16", "date", "time", "user_id", "device_ip_count",
-    #     "device_id_count", "user_count", "user_hour_count", "user_bagged")
-    # fieldfixers = {
-    #     "C1": int,
-    #     "banner_pos": int,
-    #     "C1": int,
-    #     "site_domain": int,
-    #     "site_category": int,
-    #     "app_domain": int,
-    #     "app_category": int,
-    #     "device_id": int,
-    #     "device_ip": int,
-    #     "device_model": int,
-    #     "device_type": int,
-    #     "device_conn_type": int,
-    #     "C15": int,
-    #     "C16": int,
-    #     "date": int,
-    #     "time": int,
-    #     "user_id": int,
-    #     "device_ip_count": int,
-    #     "device_id_count": int,
-    #     "user_count": int,
-    #     "user_hour_count": int,
-    #     "user_bagged": int,
-    # }
-    # reader = csv.DictReader(csvfile, fieldnames)
-    #
-    # for row in reader:
-    #     for key,value in row.items():
-    #         ffunc = fieldfixers.get(key)
-    #         if ffunc:
-    #             row[key] = ffunc(value)
-    #     json.dump(row, jsonfile, sort_keys=False, separators=(',', ':'))
-    #     jsonfile.write(',')
-    #     jsonfile.write('\n')
-    # return jsonfile
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -130,19 +76,6 @@ def uploaded_file(filename):
     service = discovery.build('ml', 'v1')
     name = 'projects/{}/models/{}'.format('kanalyzers', 'juliakeras')
     instances = csvtojson(filename)
-    # instances2 = instances.getvalue()
-    #
-    # for i in range(0, len(instances2)):
-    #     instances2[i] = int(instances2[i])
-    #
-    # return instances2
-
-
-
-    # instances = [[1005,0,227,3,12,0,438,1599,138,1,0,320,50,0,0,1681,2,2,2,95,232],
-    # [1005,0,227,3,12,0,438,1599,138,1,0,320,50,0,0,1681,2,2,2,95,232]]
-
-    print (instances)
 
     response = service.projects().predict(
         name=name,
@@ -154,13 +87,27 @@ def uploaded_file(filename):
 
     send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-    print(response['predictions'])
+    #response['predictions'][0]['dense_2'][0] accesses the returned click probabilities
+
+    #looping through returned predictions to get all probilities returned by model
     ret = []
     for p in response['predictions']:
-        ret.append(p['dense_2'][0])
-    #return str(response['predictions'][0]['dense_2'][0])
-    values = ', '.join(str(v) for v in ret)
-    return values
+        if p['dense_2'][0] > 0.5:
+            p = 1
+        else:
+            p = 0
+        ret.append(p)
+
+    df = pd.read_csv(UPLOAD_FOLDER+'/'+filename)
+    df.insert(0, "clicks", ret )
+    df.to_csv(UPLOAD_FOLDER+"/clickpredictions.csv", index=False)
+
+
+    # values = ', '.join(str(v) for v in ret)
+    #
+    # return values
+
+    return render_template('index.html')
 
 
 
