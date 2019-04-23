@@ -113,7 +113,6 @@ def uploaded_file(filename):
     return render_template('index.html')
 
 
-
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -189,7 +188,7 @@ def server_error(e):
 if __name__ == '__main__':
     # This is used when running locally. Gunicorn is used to run the
     # application on Google App Engine. See entrypoint in app.yaml.
-    #app.run(host='127.0.0.1', port=8080, debug=True)
-    http_server = WSGIServer(('', 5000), app)
-    http_server.serve_forever()
+    app.run(host='127.0.0.1', port=8080, debug=True)
+    #http_server = WSGIServer(('', 5000), app)
+    #http_server.serve_forever()
     # [END gae_flex_quickstart]
