@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="../static/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../static/assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        Data Viz | Ad Clicks
+    </title>
+    <meta
+        content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+        name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+        rel="stylesheet">
+    <!-- CSS Files -->
+    <link href="../static/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../static/assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+    <!--    d3.js-->
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+</head>
+
+<body class="">
+    <div class="wrapper ">
+        <div class="sidebar" data-color="white" data-active-color="danger">
+
+            <div class="logo">
+                <a href="" class="simple-text logo-mini">
+                    <div class="logo-image-small">
+                        <img src="../static/assets/img/logo-small.png">
+                    </div>
+                </a>
+                <a href="" class="simple-text logo-normal">
+                    Kanalyzers
+                </a>
+            </div>
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                    <li class=" ">
+                        <a href="./dashboard.html">
+                            <i class="nc-icon nc-bank"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="./tables.html">
+                            <i class="nc-icon nc-tile-56"></i>
+                            <p>Table Details</p>
+                        </a>
+                    </li>
+
+                    <li class="active-pro active">
+                        <a href="aboutus.html">
+                            <i class="nc-icon nc-alert-circle-i"></i>
+                            <p>About Us</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+                        <div class="navbar-toggle">
+                            <button type="button" class="navbar-toggler">
+                                <span class="navbar-toggler-bar bar1"></span>
+                                <span class="navbar-toggler-bar bar2"></span>
+                                <span class="navbar-toggler-bar bar3"></span>
+                            </button>
+                        </div>
+                        <a class="navbar-brand" href="#pablo">Data Viz</a>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navigation" aria-controls="navigation-index"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                        <form>
+                            <div class="input-group no-border">
+                                <input type="text" value="" class="form-control"
+                                    placeholder="Search...">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="nc-icon nc-zoom-split"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link btn-rotate" href="#pablo">
+                                    <i class="nc-icon nc-settings-gear-65"></i>
+                                    <p>
+                                        <span class="d-lg-none d-md-block">Account</span>
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card ">
+                            <div id="bar-graph" class="card-header">
+                                <br>
+                                <h5 id="bar-graph-title" class="card-title"></h5>
+                                <p class="card-category">Cummulative Click Performance</p>
+                            </div>
+
+                            <div class="customdrop" id="drop" align="center"></div>
+                            <br>
+
+                            <script>
+
+                                // set the dimensions and margins of the graph
+                                var margin = { top: 20, right: 20, bottom: 30, left: 100 },
+                                    width = 800 - margin.left - margin.right,
+                                    height = 500 - margin.top - margin.bottom;
+
+                                // Create the svg canvas in the "graph" div
+                                var svg = d3.select("#bar-graph")
+                                    .append("svg")
+                                    .style("width", width + margin.left + margin.right + "px")
+                                    .style("height", height + margin.top + margin.bottom + "px")
+                                    .attr("width", width + margin.left + margin.right)
+                                    .attr("height", height + margin.top + margin.bottom)
+                                    .append("g")
+                                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                                    .attr("class", "svg");
+
+
+                                // Get the data
+                                d3.csv("data/choice_features.csv", function (error, data) {
+                                    if (error) throw error;
+
+                                    // Set the ranges
+                                    var x = d3.scaleBand().rangeRound([0, width]).padding(0.1)
+                                    var y = d3.scaleLinear().range([height, 0]);
+
+                                    // Get every column value - DONE
+                                    var elements = Object.keys(data[0])
+                                        .filter(function (d) {
+                                            return ((d != "click"));
+                                        });
+                                    var selection = elements[3];
+                                    console.log(selection);
+
+                                    var chartTitle = "Clicks by " + selection;
+                                    d3.select("#bar-graph-title")
+                                        .text(chartTitle);
+
+                                    // Groupby device type and then sum clicks - Works
+                                    // clicksTotal has "key" and "value" attributes
+                                    var clicksTotal = d3.nest()
+                                        .key(function (d) { return +d[selection]; }).sortKeys(d3.ascending)
+                                        .rollup(function (v) { return d3.sum(v, function (d) { return d.click; }); })
+                                        .entries(data);
+                                    console.log("TotalClicks");
+                                    console.log(JSON.stringify(clicksTotal));
+
+                                    var y = d3.scaleLinear()
+                                        .domain([0, d3.max(clicksTotal, function (d) {
+                                            return d.value;
+                                        })])
+                                        .range([height, 0]);
+
+                                    var x = d3.scaleBand()
+                                        .domain(clicksTotal.map(function (d) { return d.key; }))
+                                        .rangeRound([0, width]).padding(0.2)
+
+                                    var xAxis = d3.axisBottom()
+                                        .scale(x)
+
+                                    svg.append("text")
+                                        .attr("class", "x label")
+                                        .attr("text-anchor", "middle")
+                                        .attr("x", width / 2)
+                                        .attr("y", height + 30)
+                                        .text("Categories");
+
+                                    var yAxis = d3.axisLeft()
+                                        .scale(y)
+
+                                    svg.append("text")
+                                        .attr("class", "y label")
+                                        .attr("text-anchor", "middle")
+                                        .attr("x", -width / 4)
+                                        .attr("y", -45)
+                                        .attr("dy", ".75em")
+                                        .attr("transform", "rotate(-90)")
+                                        .text("Total Clicks");
+
+                                    // Draw y axis
+                                    svg.append("g")
+                                        .attr("class", "y axis")
+                                        .call(yAxis);
+
+                                    // Draw x axis
+                                    svg.append("g")
+                                        .attr("class", "x axis")
+                                        .attr("transform", "translate(0," + height + ")")
+                                        .call(xAxis)
+                                        .selectAll("text")
+                                        .style("font-size", "8px")
+                                        .style("text-anchor", "end")
+
+                                    //              Draw the bars - FIRST TIME
+                                    svg.selectAll("rectangle")
+                                        .data(clicksTotal)
+                                        .enter()
+                                        .append("rect")
+                                        .attr("class", "rectangle")
+                                        .attr("x", function (d) { return x(d.key); })
+                                        .attr("y", function (d) { return y(d.value); })
+                                        .attr("width", width / (clicksTotal.length + 1))
+                                        .attr("height", function (d) { return height - y(d.value); });
+
+                                    var selector = d3.select("#drop")
+                                        .append("select")
+                                        .attr("id", "dropdown")
+                                        .attr("class", "drop-content")
+                                        .on("change", function (d) {
+                                            selection = document.getElementById("dropdown");
+
+                                            //                    update bar chart title
+                                            console.log(selection.value)
+                                            var chartTitle = "Clicks by " + selection.value;
+                                            d3.select("#bar-graph-title")
+                                                .text(chartTitle);
+
+                                            //                    recompute data values
+                                            var clicksTotal = d3.nest()
+                                                .key(function (d) { return +d[selection.value]; }).sortKeys(d3.ascending)
+                                                .rollup(function (v) { return d3.sum(v, function (d) { return d.click; }); })
+                                                .entries(data);
+
+                                            console.log(selection.value)
+                                            console.log("TotalClicks - DONE")
+                                            console.log(JSON.stringify(clicksTotal));
+
+                                            // Adjust y-axis
+                                            var ymax = d3.max(clicksTotal, function (d) {
+                                                return d.value;
+                                            });
+
+                                            y.domain([0, ymax]);
+                                            yAxis.scale(y);
+
+                                            // Adjust x-axis
+                                            console.log("New x-axis keys:")
+                                            x.domain(clicksTotal.map(function (d) {
+                                                console.log(d.key)
+                                                return d.key;
+                                            }));
+                                            xAxis.scale(x);
+
+                                            console.log("Height/X/Y")
+
+                                            svg.selectAll("rect").remove()
+
+                                            // Draw the new bars
+                                            svg.selectAll(".rectangle")
+                                                .data(clicksTotal)
+                                                .enter()
+                                                .append("rect")
+                                                .attr("class", "rectangle")
+
+                                                .attr("x", function (d) {
+                                                    console.log(x(d.key))
+                                                    return x(d.key);
+                                                })
+
+                                                .attr("y", function (d) {
+                                                    console.log(y(d.value))
+                                                    return y(d.value);
+                                                })
+
+                                                .attr("width", width / (clicksTotal.length + 1))
+
+                                                .attr("height", function (d) {
+                                                    newh = height - y(d.value)
+                                                    //                            console.log("HEIGHT: " + newh)
+                                                    return newh;
+                                                })
+
+                                            console.log("Bars done")
+
+                                            // Apply scaled y axis    
+                                            d3.selectAll("g.y.axis")
+                                                .transition()
+                                                .call(yAxis);
+
+                                            // Apply scaled x axis    
+                                            d3.selectAll("g.x.axis")
+                                                .transition()
+                                                .call(xAxis);
+
+                                            //                console.log(selection)
+                                        }); //End of on change function
+
+                                    selector.selectAll("option")
+                                        .data(elements)
+                                        .enter().append("option")
+                                        .attr("value", function (d) {
+                                            return d;
+                                        })
+                                        .text(function (d) {
+                                            return d;
+                                        })
+
+
+                                });
+
+                            </script>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer footer-black  footer-white ">
+                <div class="container-fluid">
+                    <div class="row">
+                        <nav class="footer-nav">
+                            <ul>
+                                <li>
+                                    <a href="" target="_blank">Creative
+                                        Tim</a>
+                                </li>
+                                <li>
+                                    <a href="" target="_blank">Blog</a>
+                                </li>
+                                <li>
+                                    <a href="" target="_blank">Licenses</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="credits ml-auto">
+                            <span class="copyright">
+                                ©
+                                <script>
+                                    document.write(new Date().getFullYear())
+                                </script>, made with <i class="fa fa-heart heart"> </i>during the
+                                innagural Google AMLI
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!--   Core JS Files   -->
+    <script src="../static/assets/js/core/jquery.min.js"></script>
+    <script src="../static/assets/js/core/popper.min.js"></script>
+    <script src="../static/assets/js/core/bootstrap.min.js"></script>
+    <script src="../static/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <!-- Chart JS -->
+    <script src="../static/assets/js/plugins/chartjs.min.js"></script>
+    <!--  Notifications Plugin    -->
+    <script src="../static/assets/js/plugins/bootstrap-notify.js"></script>
+    <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="../static/assets/js/paper-dashboard.min.js?v=2.0.0"
+        type="text/javascript"></script>
+
+</body>
+
+</html>

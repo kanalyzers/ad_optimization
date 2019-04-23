@@ -7,6 +7,11 @@ from google.cloud import storage
 import logging
 from flask import render_template
 from werkzeug.utils import secure_filename
+try:
+    from io import StringIO # Python 3	    from io import StringIO # Python 3
+except:
+    from StringIO import StringIO	    
+    from io import BytesIO as StringIO
 
 from oauth2client.client import GoogleCredentials
 from googleapiclient import discovery
@@ -16,6 +21,7 @@ import csv
 import json
 import pandas as pd
 from googleapiclient.discovery import build
+from google.oauth2 import service_account
 
 app = Flask(__name__)
 
@@ -28,23 +34,17 @@ client = storage.Client()
 # creates bucket
 bucket = client.get_bucket('kanalyzers.appspot.com')
 # verify bucket
-print('Bucket {} created.'.format(bucket.name))
+#print('Bucket {} created.'.format(bucket.name))
 
 # blob actions
-blob = bucket.blob('saved_model.pb')
-blob.upload_from_string('this is test content!')
-# blob2 = bucket.blob('remote/path/storage.txt')
-
-# test uploading test.csv from uploads/
-# blob2.upload_from_filename(filename='/flask_site/uploads')
-# blob.upload_from_string('this is test content!')
+#blob = bucket.blob('saved_model.pb')
+#blob.upload_from_string('this is test content!')
 
 # bucket name vars for something sam was doing
 PROJECT_NAME = 'kanalyzers'
 MODEL_BUCKET = 'kanalyzers.appspot.com'
 MODEL_FILENAME = 'tf_model.h5'
 MODEL = None
-
 
 
 # upload folder
@@ -55,6 +55,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+output_stream= StringIO()
 
 def csvtojson(filename):
     jsonfile = StringIO()
@@ -70,7 +72,6 @@ def csvtojson(filename):
         json.dump(row, jsonfile)
         jsonfile.write('\n')
     return jsonfile
-
 
     # jsonfile = StringIO()
     # csvfile = open(UPLOAD_FOLDER+'/'+filename, 'r')
@@ -114,20 +115,20 @@ def csvtojson(filename):
     #     jsonfile.write('\n')
     # return jsonfile
 
+
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    #Sending uploaded CSV to our Cloud ML model
+    # Sending uploaded CSV to our Cloud ML model
     service = discovery.build('ml', 'v1')
     name = 'projects/{}/models/{}'.format('kanalyzers', 'juliatensorflow')
-    instances = csvtojson(filename)
+    instances=[12,1324,34,56]
+    # instances = csvtojson(filename)
 
-
-    #return instances.getvalue()
-
-
+    # return instances.getvalue()
     response = service.projects().predict(
         name=name,
-        body={"instances": instances.getvalue()}
+        body={"instances": instances}
+        # body={"instances": instances.getvalue()}
     ).execute()
 
     if 'error' in response:
@@ -139,6 +140,10 @@ def uploaded_file(filename):
 
     return
 
+with open("main.py") as fp:
+    for i, line in enumerate(fp):
+        if "\xe2" in line:
+            print i, repr(line)
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -215,7 +220,7 @@ def server_error(e):
 if __name__ == '__main__':
     # This is used when running locally. Gunicorn is used to run the
     # application on Google App Engine. See entrypoint in app.yaml.
-    app.run(host='127.0.0.1', port=8080, debug=True)
-    # http_server = WSGIServer(('', 5000), app)
-    # http_server.serve_forever()
+    #app.run(host='127.0.0.1', port=8080, debug=True)
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
     # [END gae_flex_quickstart]
