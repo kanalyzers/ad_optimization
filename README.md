@@ -13,21 +13,21 @@ Enter our dataset, which is based on eleven days worth of mobile data from the A
 
 --------------------------------------
 
-# Setup / Dependencies
+# Dependencies
 * Install the latest versions of Python 3
-* Install a text editor or IDE (optional)
 * Install the Google Cloud SDK
-* Install the Google Cloud CLI (optional)
+* All other project specific dependencies are handled via requirements.txt when developing (configure development environment)
 
-# configure development environment
+# Configure Development Environment
 https://cloud.google.com/python/setup
+
  - pip install --upgrade virtualenv
- - cd your-project
- - virtualenv --python python3 env
+ - cd flask_site/
+ - virtualenv --python env
  - source env/bin/activate
- - pip install google-cloud-storage
  - pip install -r requirements.txt
- - when you're done developing run: ``` deactivate```
+ - from flask_site/ use ```python main.py``` or ```flask run``` to launch development server
+ - when you're done developing, commit & push changes then run: ``` deactivate``` to shut down dev server
 
 # google cloud api
 https://googleapis.github.io/google-cloud-python/latest/
