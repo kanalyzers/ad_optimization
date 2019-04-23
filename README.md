@@ -1,6 +1,8 @@
 # Objective
 Train a machine learning model to predict whether a particular user will click on an ad or not based on training data from the Avazu advertising platform provided by Criteo Labs 
 
+# Website
+https://kanalyzers.appspot.com/
 
 # Background
 Determining whether advertisers will click on an ad on a mobile platform is a question that encapsulates increasing market value as mobile advertising revenue explodes. In FY 2017 mobile ad revenue grew to $49.9B (+36% YoY) in 2017. This increase in the mobile ad market means mobile is increasingly relevant to overall marketing ROI and more and more data is available to train machine learning models. 
@@ -13,27 +15,29 @@ Enter our dataset, which is based on eleven days worth of mobile data from the A
 
 --------------------------------------
 
-# Dependencies
+# Setup / Dependencies
 * Install the latest versions of Python 3
+* Install a text editor or IDE (optional)
 * Install the Google Cloud SDK
-* All other project specific dependencies are handled via requirements.txt when developing (configure development environment)
+* Install the Google Cloud CLI (optional)
 
-# Configure Development Environment
+# configure development environment
 https://cloud.google.com/python/setup
-
  - pip install --upgrade virtualenv
- - cd flask_site/
- - virtualenv --python env
+ - cd your-project
+ - virtualenv --python python3 env
  - source env/bin/activate
+ - pip install google-cloud-storage
  - pip install -r requirements.txt
- - from flask_site/ use ```python main.py``` or ```flask run``` to launch development server
- - when you're done developing, commit & push changes then run: ``` deactivate``` to shut down dev server
+ - when you're done developing run: ``` deactivate```
 
-# google cloud api
-https://googleapis.github.io/google-cloud-python/latest/
+# Back End Technology 
+ - Google: Cloud Compute Engine, Cloud Storage, ML Engine API https://googleapis.github.io/google-cloud-python/latest/
+ - Flask
  
 # Google Compute Engine 
-## Spin up a server from the VM instance
+## How to spin up a server from the VM instance and use Jupyter Notebook from the VM
+We used Compute Engine to store our dataset (6+GB)
 `
 Strongly recommended to use the Compute Engine browser tool to ```ssh``` into the VM. You can access the VM via two methods:
 
@@ -47,35 +51,37 @@ Strongly recommended to use the Compute Engine browser tool to ```ssh``` into th
 ```
  gcloud compute instances stop example-instance-1 example-instance-2
 ```
-## Jupyter Notebook from VM instance
+## Jupyter Notebook from VM Instance
 
--  Spin up Jupyter Notebook from VM (ports only open from 5000-5010)
-
+-  Spin up Jupyter Notebook from VM
 ```
 jupyter notebook —ip=0.0.0.0 --port=8888 --no-browser &
 ```
+## Jupyter Notebook Auth Token:
 -  get link from Jupyter output 
 -  copy url with token into browser 
 -  copy static IP address between the parentheses
 
 
-## ML Tasks 
-_ preprocess data
-_ iteratively train and evaluate models
+## Machine Learning / Data 
+- Preprocess and feature engineer data with Pandas, Numpy, scikit learn and 
+- iteratively train and evaluate predictive classification models:
+ - * - SGDClassifier
+ - * - Random Forest
+ - * - Tensorfolow: Multi-layer Perceptron Neural Net
 
 # Tools used
-* Google Cloud Compute Engine
 * Visual Studio Code with SFTP OR browser Compute Engine ```ssh```
 * Jupyter Notebook
-* Github for Version control
+* Github
 * Python3
 * pandas
-* flask
-* Tensorflow, scikit learn, etc. 
+* Flask
+* Tensorflow, scikit learn, 
 
 # Data
 
-## Data fields
+## Default/Original Features 
  - id: ad identifier
  - click: 0/1 for non-click/click
  - hour: format is YYMMDDHH, so 14091123 means 23:00 on Sept. 11, 2014 UTC.
@@ -93,3 +99,18 @@ _ iteratively train and evaluate models
  - device_type
  - device_conn_type
  - C14-C21 -- anonymized categorical variables
+
+ Preprocessed / Feature Engineered Data
+ - One hot encoded: 
+    * device_conn_type
+    * device_type
+ - Features converted to numeric data types
+ - Removed C1, C14, C17-21
+ - feature engineered:
+    * Date
+    * Time
+    * User counts
+ - Bagged:
+    
+
+    

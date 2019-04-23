@@ -113,10 +113,6 @@ def uploaded_file(filename):
     return render_template('index.html')
 
 
-with open("main.py") as fp:
-    for i, line in enumerate(fp):
-        if "\xe2" in line:
-            print i, repr(line)
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
