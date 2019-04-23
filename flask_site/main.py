@@ -7,6 +7,10 @@ from google.cloud import storage
 import logging
 from flask import render_template
 from werkzeug.utils import secure_filename
+try:
+    from io import StringIO # Python 3	    from io import StringIO # Python 3
+except:	except:
+    from StringIO import StringIO	    from io import BytesIO as StringIO
 
 from oauth2client.client import GoogleCredentials
 from googleapiclient import discovery
@@ -16,8 +20,14 @@ import csv
 import json
 import pandas as pd
 from googleapiclient.discovery import build
+from google.oauth2 import service_account
 
 app = Flask(__name__)
+
+SCOPES = ['https://www.googleapis.com/auth/cloud-platform', 'https://ml.googleapis.com/$discovery/rest?version=v1']
+
+SERVICE_ACCOUNT_FILE = '/Users/pirakoch/Downloads/kanalyzers-9ede60ab88e7.json'
+credentials = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 
 # build a service obj
 ml = discovery.build('ml', 'v1')
@@ -28,23 +38,17 @@ client = storage.Client()
 # creates bucket
 bucket = client.get_bucket('kanalyzers.appspot.com')
 # verify bucket
-print('Bucket {} created.'.format(bucket.name))
+#print('Bucket {} created.'.format(bucket.name))
 
 # blob actions
-blob = bucket.blob('saved_model.pb')
-blob.upload_from_string('this is test content!')
-# blob2 = bucket.blob('remote/path/storage.txt')
-
-# test uploading test.csv from uploads/
-# blob2.upload_from_filename(filename='/flask_site/uploads')
-# blob.upload_from_string('this is test content!')
+#blob = bucket.blob('saved_model.pb')
+#blob.upload_from_string('this is test content!')
 
 # bucket name vars for something sam was doing
 PROJECT_NAME = 'kanalyzers'
 MODEL_BUCKET = 'kanalyzers.appspot.com'
 MODEL_FILENAME = 'tf_model.h5'
 MODEL = None
-
 
 
 # upload folder
@@ -55,6 +59,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+output_stream= StringIO()
 
 def csvtojson(filename):
     jsonfile = StringIO()
@@ -70,7 +76,6 @@ def csvtojson(filename):
         json.dump(row, jsonfile)
         jsonfile.write('\n')
     return jsonfile
-
 
     # jsonfile = StringIO()
     # csvfile = open(UPLOAD_FOLDER+'/'+filename, 'r')
@@ -114,16 +119,15 @@ def csvtojson(filename):
     #     jsonfile.write('\n')
     # return jsonfile
 
+
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    #Sending uploaded CSV to our Cloud ML model
+    # Sending uploaded CSV to our Cloud ML model
     service = discovery.build('ml', 'v1')
     name = 'projects/{}/models/{}'.format('kanalyzers', 'juliatensorflow')
     instances = csvtojson(filename)
 
-
-    #return instances.getvalue()
-
+    # return instances.getvalue()
 
     response = service.projects().predict(
         name=name,
