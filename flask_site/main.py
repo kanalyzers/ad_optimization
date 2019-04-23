@@ -59,76 +59,30 @@ def allowed_file(filename):
 output_stream= StringIO()
 
 def csvtojson(filename):
-    jsonfile = StringIO()
     csvfile = open(UPLOAD_FOLDER+'/'+filename, 'r')
-    # fieldnames = ("C1", "banner_pos", "site_domain", "site_category", "app_domain",
-    # "app_category", "device_id", "device_ip", "device_model", "device_type",
-    # "device_conn_type", "C15", "C16", "date", "time", "user_id", "device_ip_count",
-    # "device_id_count", "user_count", "user_hour_count", "user_bagged")
-    # reader = csv.DictReader( csvfile, fieldnames)
-    #reader = csv.DictReader( csvfile )
     reader = csv.reader(csvfile)
+    next(reader)
+    ret = []
     for row in reader:
-        json.dump(row, jsonfile)
-        jsonfile.write('\n')
-    return jsonfile
+        cur = []
+        for col in row:
+            cur.append(int(col))
+        ret.append(cur)
 
-    # jsonfile = StringIO()
-    # csvfile = open(UPLOAD_FOLDER+'/'+filename, 'r')
-    # fieldnames = ("C1", "banner_pos", "site_domain", "site_category", "app_domain",
-    #     "app_category", "device_id", "device_ip", "device_model", "device_type",
-    #     "device_conn_type", "C15", "C16", "date", "time", "user_id", "device_ip_count",
-    #     "device_id_count", "user_count", "user_hour_count", "user_bagged")
-    # fieldfixers = {
-    #     "C1": int,
-    #     "banner_pos": int,
-    #     "C1": int,
-    #     "site_domain": int,
-    #     "site_category": int,
-    #     "app_domain": int,
-    #     "app_category": int,
-    #     "device_id": int,
-    #     "device_ip": int,
-    #     "device_model": int,
-    #     "device_type": int,
-    #     "device_conn_type": int,
-    #     "C15": int,
-    #     "C16": int,
-    #     "date": int,
-    #     "time": int,
-    #     "user_id": int,
-    #     "device_ip_count": int,
-    #     "device_id_count": int,
-    #     "user_count": int,
-    #     "user_hour_count": int,
-    #     "user_bagged": int,
-    # }
-    # reader = csv.DictReader(csvfile, fieldnames)
-    #
-    # for row in reader:
-    #     for key,value in row.items():
-    #         ffunc = fieldfixers.get(key)
-    #         if ffunc:
-    #             row[key] = ffunc(value)
-    #     json.dump(row, jsonfile, sort_keys=False, separators=(',', ':'))
-    #     jsonfile.write(',')
-    #     jsonfile.write('\n')
-    # return jsonfile
+    return ret
 
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     # Sending uploaded CSV to our Cloud ML model
     service = discovery.build('ml', 'v1')
-    name = 'projects/{}/models/{}'.format('kanalyzers', 'juliatensorflow')
-    instances=[12,1324,34,56]
-    # instances = csvtojson(filename)
 
-    # return instances.getvalue()
+    name = 'projects/{}/models/{}'.format('kanalyzers', 'juliakeras')
+    instances = csvtojson(filename)
+
     response = service.projects().predict(
         name=name,
-        body={"instances": instances}
-        # body={"instances": instances.getvalue()}
+        body={"instances": instances }
     ).execute()
 
     if 'error' in response:
@@ -136,9 +90,28 @@ def uploaded_file(filename):
 
     send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-    print(response['predictions'])
+    #response['predictions'][0]['dense_2'][0] accesses the returned click probabilities
 
-    return
+    #looping through returned predictions to get all probilities returned by model
+    ret = []
+    for p in response['predictions']:
+        if p['dense_2'][0] > 0.5:
+            p = 1
+        else:
+            p = 0
+        ret.append(p)
+
+    df = pd.read_csv(UPLOAD_FOLDER+'/'+filename)
+    df.insert(0, "clicks", ret )
+    df.to_csv(UPLOAD_FOLDER+"/clickpredictions.csv", index=False)
+
+
+    # values = ', '.join(str(v) for v in ret)
+    #
+    # return values
+
+    return render_template('index.html')
+
 
 with open("main.py") as fp:
     for i, line in enumerate(fp):
@@ -167,14 +140,14 @@ def upload_file():
 
 # load model
 @app.before_first_request
-def _load_model():
-    #global MODEL
-    client = storage.Client()
-    bucket = client.get_bucket(MODEL_BUCKET)
-    blob = bucket.get_blob(MODEL_FILENAME)
-    s = blob.download_as_string()
-
-    s
+# def _load_model():
+#     #global MODEL
+#     client = storage.Client()
+#     bucket = client.get_bucket(MODEL_BUCKET)
+#     blob = bucket.get_blob(MODEL_FILENAME)
+#     s = blob.download_as_string()
+#
+#     s
 
 #  routes
 @app.route('/uploads')
