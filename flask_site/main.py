@@ -57,7 +57,8 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def csvtojson(filename):
-    jsonfile = StringIO()
+    #jsonfile = StringIO()
+    #jsonfile = open(UPLOAD_FOLDER+'/'+filename, 'w')
     csvfile = open(UPLOAD_FOLDER+'/'+filename, 'r')
     # fieldnames = ("C1", "banner_pos", "site_domain", "site_category", "app_domain",
     # "app_category", "device_id", "device_ip", "device_model", "device_type",
@@ -66,10 +67,19 @@ def csvtojson(filename):
     # reader = csv.DictReader( csvfile, fieldnames)
     #reader = csv.DictReader( csvfile )
     reader = csv.reader(csvfile)
+    ret = []
     for row in reader:
-        json.dump(row, jsonfile)
-        jsonfile.write('\n')
-    return jsonfile
+        cur = []
+        for col in row:
+            cur.append(int(col))
+        ret.append(cur)
+
+    return ret
+
+    # for row in reader:
+    #     json.dump(row, jsonfile)
+    #     jsonfile.write('\n')
+    # return jsonfile
 
 
     # jsonfile = StringIO()
@@ -118,16 +128,25 @@ def csvtojson(filename):
 def uploaded_file(filename):
     #Sending uploaded CSV to our Cloud ML model
     service = discovery.build('ml', 'v1')
-    name = 'projects/{}/models/{}'.format('kanalyzers', 'juliatensorflow')
+    name = 'projects/{}/models/{}'.format('kanalyzers', 'juliakeras')
     instances = csvtojson(filename)
+    # instances2 = instances.getvalue()
+    #
+    # for i in range(0, len(instances2)):
+    #     instances2[i] = int(instances2[i])
+    #
+    # return instances2
 
 
-    #return instances.getvalue()
 
+    # instances = [[1005,0,227,3,12,0,438,1599,138,1,0,320,50,0,0,1681,2,2,2,95,232],
+    # [1005,0,227,3,12,0,438,1599,138,1,0,320,50,0,0,1681,2,2,2,95,232]]
+
+    print (instances)
 
     response = service.projects().predict(
         name=name,
-        body={"instances": instances.getvalue()}
+        body={"instances": instances }
     ).execute()
 
     if 'error' in response:
@@ -136,8 +155,13 @@ def uploaded_file(filename):
     send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
     print(response['predictions'])
+    ret = []
+    for p in response['predictions']:
+        ret.append(p['dense_2'][0])
+    #return str(response['predictions'][0]['dense_2'][0])
+    values = ', '.join(str(v) for v in ret)
+    return values
 
-    return
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -162,14 +186,14 @@ def upload_file():
 
 # load model
 @app.before_first_request
-def _load_model():
-    #global MODEL
-    client = storage.Client()
-    bucket = client.get_bucket(MODEL_BUCKET)
-    blob = bucket.get_blob(MODEL_FILENAME)
-    s = blob.download_as_string()
-
-    s
+# def _load_model():
+#     #global MODEL
+#     client = storage.Client()
+#     bucket = client.get_bucket(MODEL_BUCKET)
+#     blob = bucket.get_blob(MODEL_FILENAME)
+#     s = blob.download_as_string()
+#
+#     s
 
 #  routes
 @app.route('/uploads')
