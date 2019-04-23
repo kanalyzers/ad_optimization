@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="../static/assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    form
+    Data Upload | Ad Clicks
   </title>
   <meta
     content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
@@ -24,9 +24,6 @@
 <body class="">
   <div class="wrapper ">
     <div class="sidebar" data-color="white" data-active-color="danger">
-      <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
       <div class="logo">
         <a href="" class="simple-text logo-mini">
           <div class="logo-image-small">
@@ -35,9 +32,6 @@
         </a>
         <a href="" class="simple-text logo-normal">
           Kanalyzers
-          <!-- <div class="logo-image-big">
-            <img src="../assets/img/logo-big.png">
-          </div> -->
         </a>
       </div>
       <div class="sidebar-wrapper">
@@ -48,48 +42,19 @@
               <p>index</p>
             </a>
           </li>
-          <!-- <li>
-            <a href="./icons.html">
-              <i class="nc-icon nc-diamond"></i>
-              <p>Icons</p>
-            </a>
-          </li>
-          <li>
-            <a href="./map.html">
-              <i class="nc-icon nc-pin-3"></i>
-              <p>Maps</p>
-            </a>
-          </li>
-          <li>
-            <a href="./notifications.html">
-              <i class="nc-icon nc-bell-55"></i>
-              <p>Notifications</p>
-            </a>
-          </li>
-          <li class="active ">
-            <a href="./user.html">
-              <i class="nc-icon nc-single-02"></i>
-              <p>User Profile</p>
-            </a>
-          </li> -->
+
           <li>
             <a href="./tables.html">
               <i class="nc-icon nc-tile-56"></i>
-              <p>Table List</p>
+              <p>Table Details</p>
             </a>
           </li>
-          <li>
+          <li class="active-pro">
             <a href="aboutus.html">
-              <i class="nc-icon nc-bell-55"></i>
+              <i class="nc-icon nc-alert-circle-i"></i>
               <p>About Us</p>
             </a>
           </li>
-          <!-- <li class="active-pro">
-            <a href="./upgrade.html">
-              <i class="nc-icon nc-spaceship"></i>
-              <p>Upgrade to PRO</p>
-            </a>
-          </li> -->
         </ul>
       </div>
     </div>
@@ -105,7 +70,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#">index 2</a>
+            <a class="navbar-brand" href="#">Data Upload</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navigation" aria-controls="navigation-index" aria-expanded="false"
@@ -162,98 +127,28 @@
         </div>
       </nav>
       <!-- End Navbar -->
-      <!-- <div class="panel-header panel-header-sm">
-  
-  
-</div> -->
       <div class="content">
         <div class="col-md-8">
           <div class="card card-user">
             <div class="card-header">
-              <h5 class="card-title">Edit Profile</h5>
+              <h5 class="card-title">Upload Data</h5>
             </div>
             <div class="card-body">
+
+              <!-- upload file form -->
               <form>
                 <div class="row">
-                  <div class="col-md-5 pr-1">
-                    <div class="form-group">
-                      <label>Company (disabled)</label>
-                      <input type="text" class="form-control" disabled="" placeholder="Company"
-                        value="Creative Code Inc.">
-                    </div>
-                  </div>
-                  <div class="col-md-3 px-1">
-                    <div class="form-group">
-                      <label>Username</label>
-                      <input type="text" class="form-control" placeholder="Username"
-                        value="michael23">
-                    </div>
-                  </div>
-                  <div class="col-md-4 pl-1">
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">Email address</label>
-                      <input type="email" class="form-control" placeholder="Email">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
                   <div class="col-md-6 pr-1">
-                    <div class="form-group">
-                      <label>First Name</label>
-                      <input type="text" class="form-control" placeholder="Company" value="Chet">
-                    </div>
-                  </div>
-                  <div class="col-md-6 pl-1">
-                    <div class="form-group">
-                      <label>Last Name</label>
-                      <input type="text" class="form-control" placeholder="Last Name" value="Faker">
+                    <div class="">
+                      <label> Upload File: </label>
+                      <br>
+                      <input type="file" class="form-control" id="file"
+                        formenctype="multipart/form-data" required>
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <label>Address</label>
-                      <input type="text" class="form-control" placeholder="Home Address"
-                        value="Melbourne, Australia">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-4 pr-1">
-                    <div class="form-group">
-                      <label>City</label>
-                      <input type="text" class="form-control" placeholder="City" value="Melbourne">
-                    </div>
-                  </div>
-                  <div class="col-md-4 px-1">
-                    <div class="form-group">
-                      <label>Country</label>
-                      <input type="text" class="form-control" placeholder="Country"
-                        value="Australia">
-                    </div>
-                  </div>
-                  <div class="col-md-4 pl-1">
-                    <div class="form-group">
-                      <label>Postal Code</label>
-                      <input type="number" class="form-control" placeholder="ZIP Code">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <label>About Me</label>
-                      <textarea
-                        class="form-control textarea">Oh so, your weak rhyme You doubt I'll bother, reading into it</textarea>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="update ml-auto mr-auto">
-                    <button type="submit" class="btn btn-primary btn-round">Update Profile</button>
-                  </div>
-                </div>
+                <!-- end upload file form -->
+
               </form>
             </div>
           </div>
@@ -268,7 +163,8 @@
               ©
               <script>
                 document.write(new Date().getFullYear())
-              </script>, <i class="fa fa-heart heart"></i> Kanalyzers
+              </script>, made with<i class="fa fa-heart heart"></i> during the innagural Google
+              AMLI
             </span>
           </div>
         </div>
