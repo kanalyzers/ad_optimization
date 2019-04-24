@@ -43,7 +43,7 @@ MODEL = None
 
 # upload folder
 UPLOAD_FOLDER = 'uploads'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'csv', 'xml'])
+ALLOWED_EXTENSIONS = set(['csv', 'xml'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -67,7 +67,7 @@ def csvtojson(filename):
 
 
 @app.route('/uploads/<filename>')
-def uploaded_file(filename):
+def upload(filename):
     # Sending uploaded CSV to our Cloud ML model
     service = discovery.build('ml', 'v1')
 
@@ -117,13 +117,13 @@ def upload_file():
         file = request.files['file']
         # if user does not select file, browser also
         # submit an empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
+        # if file.filename == '':
+        #     flash('No selected file')
+        #     return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file', filename=filename))
+            return redirect(url_for('upload', filename=filename))
     return render_template('dashboard.html')
 
 
@@ -145,12 +145,12 @@ def uploads():
 
 
 @app.route('/dashboard.html')
-def hello():
+def dashboard():
     return render_template('dashboard.html')
 
 
 @app.route('/')
-def dashboard():
+def index():
     return render_template('dashboard.html')
 
 
