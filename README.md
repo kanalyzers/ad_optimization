@@ -45,7 +45,7 @@ Strongly recommended to use the Compute Engine browser tool to ```ssh``` into th
 ```
  gcloud compute --project "xx" ssh --zone "xx" "xx"
 ```
-2) From the G-Suite here: https://cloud.google.com/compute/
+2) From the G-Suite console here: https://cloud.google.com/compute/
  
 ### To shut down the VM instance:
 ```
