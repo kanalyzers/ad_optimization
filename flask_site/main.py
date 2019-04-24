@@ -1,6 +1,5 @@
 from flask import send_from_directory
 import os
-#from gevent.pywsgi import WSGIServer
 
 from flask import Flask, request, redirect, url_for, flash
 from google.cloud import storage
@@ -103,14 +102,14 @@ def uploaded_file(filename):
 
     df = pd.read_csv(UPLOAD_FOLDER+'/'+filename)
     df.insert(0, "clicks", ret )
-    df.to_csv(UPLOAD_FOLDER+"/clickpredictions.csv", index=False)
+    df.to_csv(UPLOAD_FOLDER+"/clickpredictions.csv", dashboard=False)
 
 
     # values = ', '.join(str(v) for v in ret)
     #
     # return values
 
-    return render_template('index.html')
+    return render_template('dashboard.html')
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -130,7 +129,7 @@ def upload_file():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('uploaded_file', filename=filename))
-    return render_template('index.html')
+    return render_template('dashboard.html')
 
 
 # load model
@@ -150,15 +149,15 @@ def uploads():
     pass
 
 
-@app.route('/index.html')
+@app.route('/dashboard.html')
 def hello():
     message = "Click"
-    return render_template('index.html', message=message)
+    return render_template('dashboard.html', message=message)
 
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+def dashboard():
+    return render_template('dashboard.html')
 
 
 @app.route('/form.html')
