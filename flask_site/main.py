@@ -1,6 +1,5 @@
 from flask import send_from_directory
 import os
-#from gevent.pywsgi import WSGIServer
 
 from flask import Flask, request, redirect, url_for, flash
 from google.cloud import storage
