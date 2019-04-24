@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 try:
     from io import StringIO # Python 3 from io import StringIO # Python 3
 except:
-    from StringIO import StringIO	    
+    from StringIO import StringIO
     from io import BytesIO as StringIO
 
 from oauth2client.client import GoogleCredentials
@@ -74,6 +74,11 @@ def upload(filename):
     name = 'projects/{}/models/{}'.format('kanalyzers', 'juliakeras')
     instances = csvtojson(filename)
 
+    # values = ', '.join(str(v) for v in instances)
+    #
+    # return values
+
+
     response = service.projects().predict(
         name=name,
         body={"instances": instances }
@@ -97,7 +102,7 @@ def upload(filename):
 
     df = pd.read_csv(UPLOAD_FOLDER+'/'+filename)
     df.insert(0, "clicks", ret )
-    df.to_csv(UPLOAD_FOLDER+"/clickpredictions.csv", dashboard=False)
+    df.to_csv(UPLOAD_FOLDER+"/clickpredictions.csv", index=False)
 
 
     # values = ', '.join(str(v) for v in ret)
