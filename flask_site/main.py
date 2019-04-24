@@ -7,7 +7,7 @@ import logging
 from flask import render_template
 from werkzeug.utils import secure_filename
 try:
-    from io import StringIO # Python 3	    from io import StringIO # Python 3
+    from io import StringIO # Python 3 from io import StringIO # Python 3
 except:
     from StringIO import StringIO	    
     from io import BytesIO as StringIO
@@ -32,12 +32,7 @@ service = build('ml', 'v1')
 client = storage.Client()
 # creates bucket
 bucket = client.get_bucket('kanalyzers.appspot.com')
-# verify bucket
-#print('Bucket {} created.'.format(bucket.name))
 
-# blob actions
-#blob = bucket.blob('saved_model.pb')
-#blob.upload_from_string('this is test content!')
 
 # bucket name vars for something sam was doing
 PROJECT_NAME = 'kanalyzers'
