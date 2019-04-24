@@ -24,9 +24,7 @@
 <body class="">
     <div class="wrapper ">
         <div class="sidebar" data-color="white" data-active-color="danger">
-            <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
+
             <div class="logo">
                 <a href="" class="simple-text logo-mini">
                     <div class="logo-image-small">
@@ -109,39 +107,13 @@
                                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
                                     data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
-                                    <p>test</p>
-                                    <!--
-                  <p>
-                    <span class="d-lg-none d-md-block">Some Actions</span>
-                  </p>
--->
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right"
-                                    aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn-rotate" href="#">
-                                    <i class="nc-icon nc-settings-gear-65"></i>
-                                    <p>
-                                        <span class="d-lg-none d-md-block">Account</span>
-                                    </p>
-                                </a>
-                            </li>
+                                </a></li>
                         </ul>
                     </div>
                 </div>
             </nav>
             <!-- End Navbar -->
-            <!-- <div class="panel-header panel-header-lg">
 
-  <canvas id="bigDashboardChart"></canvas>
-
-
-</div> -->
             <div class="content">
                 <div class="row">
 
@@ -172,30 +144,11 @@
 
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="card card-stats">
-                            <div class="card-body ">
-                                <div class="row">
-                                    <div class="col-5 col-md-4">
-                                        <div class="icon-big text-center icon-warning">
-                                            <i class="nc-icon nc-money-coins text-success"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-7 col-md-8">
-                                        <div class="numbers">
-                                            <p class="card-category">Revenue</p>
-                                            <p class="card-title">$ 1,345
-                                                <p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer ">
-                                <hr>
-                                <div class="stats">
-                                    <i class="fa fa-calendar-o"></i> Last day
-                                </div>
-                            </div>
                         </div>
                     </div>
+
+
+
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="card card-stats">
                             <div class="card-body ">
@@ -222,87 +175,278 @@
                             </div>
                         </div>
                     </div>
+
+
                 </div>
+
+
                 <div class="row">
                     <div class="col-md-8">
                         <div class="card ">
-                            <div class="card-header ">
-                                <h5 class="card-title">Ad Behavior</h5>
-                                <p class="card-category">24 Hours performance</p>
+                            <div id="bar-graph" class="card-header">
+                                <br>
+                                <h5 id="bar-graph-title" class="card-title"></h5>
+                                <p class="card-category">Cummulative Click Performance</p>
                             </div>
-                            <div class="card-body ">
-                                <canvas id=chartHours width="400" height="100"></canvas>
-                            </div>
+                            <!--
+                                                  <div class="card-body ">
+                                                    <canvas id=chartHours width="400" height="100"></canvas>
+                                                  </div>
+                                    -->
                             <div class="card-footer ">
                                 <hr>
                                 <div class="stats">
                                     <i class="fa fa-history"></i> Updated 3 minutes ago
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
+
+
                     <div class="col-md-4">
-                        <div class="card ">
+                        <div class="card">
                             <div class="card-header ">
                                 <h5 class="card-title"> Graph Settings:</h5>
-                                <p class="card-category">Select Features to Graph:</p>
+                                <p class="card-category">Select Feature:</p>
                             </div>
                             <div class="card-header">
-                                <h6> X-Axis Feature:</h6>
-                                <div class="dropdown ">
-                                    <button class="dropbtn">Select X Feature
-                                        <i class="fa fa-caret-down"></i>
-                                    </button>
-                                    <div class="dropdown-content">
-                                        <a href="#">Feature 1</a>
-                                        <a href="#">Feature 2</a>
-                                        <a href="#">Feature 3</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card-header">
-                                <h6> Y-Axis Feature:</h6>
+                                <h6> Feature:</h6>
                                 <div class="dropdown">
-                                    <button class="dropbtn">Select Y Feature
-                                        <i class="fa fa-caret-down"></i>
-                                    </button>
-                                    <div class="dropdown-content">
-                                        <a href="#">Feature 1</a>
-                                        <a href="#">Feature 2</a>
-                                        <a href="#">Feature 3</a>
-                                    </div>
-
+                                    <button class="dropbtn" id="drop" align=center> </button>
                                 </div>
                             </div>
-
                         </div>
+                        <br>
                     </div>
-                </div> <!--             end of col-->
+                </div>
+
+                <script>
+
+                    // set the dimensions and margins of the graph
+                    var margin = { top: 20, right: 20, bottom: 40, left: 60 },
+                        width = 700 - margin.left - margin.right,
+                        height = 500 - margin.top - margin.bottom;
+
+                    // Create the svg canvas in the "graph" div
+                    var svg = d3.select("#bar-graph")
+                        .append("svg")
+                        .style("width", width + margin.left + margin.right + "px")
+                        .style("height", height + margin.top + margin.bottom + "px")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                        .attr("class", "svg");
+
+
+                    // Get the data
+                    d3.csv("data/choice_features.csv", function (error, data) {
+                        if (error) throw error;
+
+                        // Set the ranges
+                        var x = d3.scaleBand().rangeRound([0, width]).padding(0.1)
+                        var y = d3.scaleLinear().range([height, 0]);
+
+                        // Get every column value - DONE
+                        var elements = Object.keys(data[0])
+                            .filter(function (d) {
+                                return ((d != "click"));
+                            });
+                        var selection = elements[0];
+                        console.log(selection);
+
+                        var chartTitle = "Clicks by " + selection;
+                        d3.select("#bar-graph-title")
+                            .text(chartTitle);
+
+                        // Groupby device type and then sum clicks - Works
+                        // clicksTotal has "key" and "value" attributes
+                        var clicksTotal = d3.nest()
+                            .key(function (d) { return +d[selection]; }).sortKeys(d3.ascending)
+                            .rollup(function (v) { return d3.sum(v, function (d) { return d.click; }); })
+                            .entries(data);
+                        console.log("TotalClicks");
+                        console.log(JSON.stringify(clicksTotal));
+
+                        var y = d3.scaleLinear()
+                            .domain([0, d3.max(clicksTotal, function (d) {
+                                return d.value;
+                            })])
+                            .range([height, 0]);
+
+                        var x = d3.scaleBand()
+                            .domain(clicksTotal.map(function (d) { return d.key; }))
+                            .rangeRound([0, width]).padding(0.2)
+
+                        var xAxis = d3.axisBottom()
+                            .scale(x)
+
+                        svg.append("text")
+                            .attr("class", "x label")
+                            .attr("text-anchor", "middle")
+                            .attr("x", width / 2)
+                            .attr("y", height + 30)
+                            .text("Categories");
+
+
+                        var yAxis = d3.axisLeft()
+                            .scale(y)
+
+                        svg.append("text")
+                            .attr("class", "y label")
+                            .attr("text-anchor", "middle")
+                            .attr("x", -width / 4)
+                            .attr("y", -45)
+                            .attr("dy", ".75em")
+                            .attr("transform", "rotate(-90)")
+                            .text("Total Clicks");
+
+
+                        // Draw y axis
+                        svg.append("g")
+                            .attr("class", "y axis")
+                            .call(yAxis);
+
+                        // Draw x axis
+                        svg.append("g")
+                            .attr("class", "x axis")
+                            .attr("transform", "translate(0," + height + ")")
+                            .call(xAxis)
+                        //                    .selectAll("text")
+                        //                    .style("font-size", "8px")
+                        //                    .style("text-anchor", "end")
+
+                        //                 Draw the bars
+                        svg.selectAll(".rect")
+                            .data(clicksTotal)
+                            .enter()
+                            .append("rect")
+                            .attr("class", "rectangle")
+                            .attr("x", function (d) { return x(d.key); })
+                            .attr("y", function (d) { return y(d.value); })
+                            .attr("width", x.bandwidth())
+                            .attr("height", function (d) { return height - y(d.value); });
+
+                        var selector = d3.select("#drop")
+                            .append("select")
+                            .attr("id", "dropdown")
+                            .attr("class", "drop-content")
+                            .on("change", function (d) {
+                                selection = document.getElementById("dropdown");
+
+                                //                    update bar chart title
+                                console.log(selection.value)
+                                var chartTitle = "Clicks by " + selection.value;
+                                d3.select("#bar-graph-title")
+                                    .text(chartTitle);
+
+                                //                    recompute data values
+                                var clicksTotal = d3.nest()
+                                    .key(function (d) { return +d[selection.value]; }).sortKeys(d3.ascending)
+                                    .rollup(function (v) { return d3.sum(v, function (d) { return d.click; }); })
+                                    .entries(data);
+
+                                console.log(selection.value)
+                                console.log("TotalClicks - DONE")
+                                console.log(JSON.stringify(clicksTotal));
+
+                                // Adjust y-axis
+                                var ymax = d3.max(clicksTotal, function (d) {
+                                    return d.value;
+                                });
+
+                                y.domain([0, ymax]);
+                                yAxis.scale(y);
+
+                                // Adjust x-axis
+                                console.log("New x-axis keys:")
+                                x.domain(clicksTotal.map(function (d) {
+                                    console.log(d.key)
+                                    return d.key;
+                                }));
+                                xAxis.scale(x);
+
+                                console.log("Height/X/Y")
+
+                                svg.selectAll("rect").remove()
+
+                                // Draw the new bars
+                                svg.selectAll(".rectangle")
+                                    .data(clicksTotal)
+                                    .enter()
+                                    .append("rect")
+                                    .attr("class", "rectangle")
+
+                                    .attr("x", function (d) {
+                                        console.log(x(d.key))
+                                        return x(d.key);
+                                    })
+
+                                    .attr("y", function (d) {
+                                        console.log(y(d.value))
+                                        return y(d.value);
+                                    })
+
+                                    .attr("width", width / (clicksTotal.length + 1))
+
+                                    .attr("height", function (d) {
+                                        newh = height - y(d.value)
+                                        //                            console.log("HEIGHT: " + newh)
+                                        return newh;
+                                    })
+
+                                // Apply scaled y axis    
+                                d3.selectAll("g.y.axis")
+                                    .transition()
+                                    .call(yAxis);
+
+                                // Apply scaled x axis    
+                                d3.selectAll("g.x.axis")
+                                    .transition()
+                                    .call(xAxis);
+
+                                //                console.log(selection)
+                            });
+
+                        selector.selectAll("option")
+                            .data(elements)
+                            .enter().append("option")
+                            .attr("value", function (d) {
+                                return d;
+                            })
+                            .text(function (d) {
+                                return d;
+                            })
+
+
+                    });
+                </script>
+
+                <a href="dataviz.html"> CLICK FOR DATA VIZ </a>
             </div>
+
+
 
             <footer class="footer footer-black  footer-white ">
                 <div class="container-fluid">
                     <div class="row">
-                        <nav class="footer-nav">
-                            <ul>
-                                <li>
-                                    <a href="" target="_blank">Licenses</a>
-                                </li>
-                            </ul>
-                        </nav>
                         <div class="credits ml-auto">
                             <span class="copyright">
                                 ©
                                 <script>
                                     document.write(new Date().getFullYear())
-                                </script>, made with <i class="fa fa-heart heart"></i> by Google
+                                </script>, made with <i class="fa fa-heart heart"></i> by
+                                Google
                                 AMLI
                             </span>
                         </div>
                     </div>
                 </div>
             </footer>
+
+
         </div>
     </div>
 
