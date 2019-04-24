@@ -6,3 +6,4 @@ flask_site/.vscode
 flask_site/lib/
 ad_optimization/env/*
 .gitignore
+/Users/pirakoch/projects/ad_optimization/.vscode

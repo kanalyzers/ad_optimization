@@ -146,8 +146,7 @@ def uploads():
 
 @app.route('/dashboard.html')
 def hello():
-    message = "Click"
-    return render_template('dashboard.html', message=message)
+    return render_template('dashboard.html')
 
 
 @app.route('/')

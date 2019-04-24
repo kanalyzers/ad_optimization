@@ -19,7 +19,6 @@ Enter our dataset, which is based on eleven days worth of mobile data from the A
 * Install the latest versions of Python 3
 * Install a text editor or IDE (optional)
 * Install the Google Cloud SDK
-* Install the Google Cloud CLI (optional)
 
 # configure development environment
 https://cloud.google.com/python/setup

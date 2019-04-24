@@ -28,16 +28,14 @@
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
       <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
+        <a href="" class="simple-text logo-mini">
           <div class="logo-image-small">
-            <img src="../assets/img/logo-small.png">
+            <img src="flask_site/static/logo-small.png">
           </div>
         </a>
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+        <a href="" class="simple-text logo-normal">
           Kanalyzers
-          <!-- <div class="logo-image-big">
-            <img src="../assets/img/logo-big.png">
-          </div> -->
+
         </a>
       </div>
       <div class="sidebar-wrapper">
@@ -78,7 +76,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Dashboard</a>
+            <a class="navbar-brand" href="">Dashboard</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navigation" aria-controls="navigation-index" aria-expanded="false"
@@ -100,7 +98,7 @@
             </form>
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link btn-magnify" href="#pablo">
+                <a class="nav-link btn-magnify" href="">
                   <i class="nc-icon nc-layout-11"></i>
                   <p>
                     <span class="d-lg-none d-md-block">Stats</span>
@@ -109,7 +107,7 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link btn-rotate" href="#pablo">
+                <a class="nav-link btn-rotate" href="">
                   <i class="nc-icon nc-settings-gear-65"></i>
                   <p>
                     <span class="d-lg-none d-md-block">Account</span>
@@ -121,12 +119,7 @@
         </div>
       </nav>
       <!-- End Navbar -->
-      <!-- <div class="panel-header panel-header-lg">
-  
-  <canvas id="bigDashboardChart"></canvas>
-  
-  
-</div> -->
+
       <div class="content">
         <div class="row">
 
@@ -142,10 +135,12 @@
                     </div>
                   </div>
                 </div>
-                <div class="card-footer">
-                  <p class="stats offset-md-4"> Upload Here </p>
+                <!-- upload button and submit button for csv data to send to server -->
+                <form method=post enctype=multipart/form-data action=“/”> <input type=file
+                  name=file>
+                  <input type=submit value=Upload>
+                </form>
 
-                </div>
               </div>
             </a>
           </div>
@@ -264,7 +259,7 @@
 
 
           // Get the data
-          d3.csv("data/choice_features.csv", function (error, data) {
+          d3.csv("ad_optimization/flask_site/static/data/choice_features.csv", function (error, data) {
             if (error) throw error;
 
             // Set the ranges
@@ -456,9 +451,6 @@
           <div class="row">
             <nav class="footer-nav">
               <ul>
-                <li>
-                  <a href="https://www.creative-tim.com/license" target="_blank">Licenses</a>
-                </li>
               </ul>
             </nav>
             <div class="credits ml-auto">
