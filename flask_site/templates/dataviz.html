@@ -112,7 +112,7 @@
       </nav>
       <!-- End Navbar -->
       <!-- <div class="panel-header panel-header-sm">
-  
+
 </div> -->
       <div class="content">
         <div class="row">
@@ -147,7 +147,7 @@
 
 
                 // Get the data
-                d3.csv("data/choice_features.csv", function (error, data) {
+                d3.csv("uploads/clickpredictions.csv", function (error, data) {
                   if (error) throw error;
 
                   // Set the ranges
@@ -302,12 +302,12 @@
 
                       console.log("Bars done")
 
-                      // Apply scaled y axis    
+                      // Apply scaled y axis
                       d3.selectAll("g.y.axis")
                         .transition()
                         .call(yAxis);
 
-                      // Apply scaled x axis    
+                      // Apply scaled x axis
                       d3.selectAll("g.x.axis")
                         .transition()
                         .call(xAxis);

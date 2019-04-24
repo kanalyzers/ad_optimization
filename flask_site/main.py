@@ -21,8 +21,10 @@ import json
 import pandas as pd
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
+import pymsgbox
 
 app = Flask(__name__)
+app.secret_key = '1234'
 
 # build a service obj
 ml = discovery.build('ml', 'v1')
@@ -66,6 +68,9 @@ def csvtojson(filename):
     return ret
 
 
+
+
+
 @app.route('/uploads/<filename>')
 def upload(filename):
     # Sending uploaded CSV to our Cloud ML model
@@ -104,12 +109,16 @@ def upload(filename):
     df.insert(0, "clicks", ret )
     df.to_csv(UPLOAD_FOLDER+"/clickpredictions.csv", index=False)
 
+    flash("  Success!!")
 
     # values = ', '.join(str(v) for v in ret)
     #
     # return values
 
+    return redirect(url_for('dashboard'))
     return render_template('dashboard.html')
+
+
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -129,45 +138,47 @@ def upload_file():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('upload', filename=filename))
+            # return redirect(url_for('dashboard'))
+            # return upload(filename)
+
     return render_template('dashboard.html')
 
 
 # load model
-@app.before_first_request
-# def _load_model():
-#     #global MODEL
-#     client = storage.Client()
-#     bucket = client.get_bucket(MODEL_BUCKET)
-#     blob = bucket.get_blob(MODEL_FILENAME)
-#     s = blob.download_as_string()
+# @app.before_first_request
+# # def _load_model():
+# #     #global MODEL
+# #     client = storage.Client()
+# #     bucket = client.get_bucket(MODEL_BUCKET)
+# #     blob = bucket.get_blob(MODEL_FILENAME)
+# #     s = blob.download_as_string()
+# #
+# #     s
 #
-#     s
-
-#  routes
+# #  routes
 @app.route('/uploads')
 def uploads():
     pass
 
+@app.route('/dataviz.html')
+def dataviz():
+    return render_template('dataviz.html')
 
 @app.route('/dashboard.html')
 def dashboard():
     return render_template('dashboard.html')
 
-
 @app.route('/')
 def index():
     return render_template('dashboard.html')
-
 
 @app.route('/form.html')
 def form():
     return render_template('form.html')
 
-
 @app.route('/aboutus.html')
 def aboutus():
     return render_template('aboutus.html')
-
 
 @app.route('/tables.html')
 def tables():

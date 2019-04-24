@@ -124,7 +124,7 @@
         <div class="row">
 
           <div class="col-lg-4 col-md-6 col-sm-6">
-            <a href="form.html">
+
               <div class="card card-stats">
                 <div class="card-body ">
                   <div class="row">
@@ -139,11 +139,18 @@
                 <form method=post enctype=multipart/form-data action="/"> <input type=file
                     name=file>
                   <!-- <div class="card-footer"> <p class="stats offset-md-4"> Upload Here </p></div> -->
-                  <input type=submit value=Upload>
+                  <input type=submit value=Submit >
                 </form>
+                {% with messages = get_flashed_messages() %}
+                 {% if messages %}
+                  {% for message in messages %}
+                    {{ message }}
+                  {% endfor %}
+                 {% endif %}
+                {% endwith %}
 
               </div>
-            </a>
+          
           </div>
 
           <div class="col-lg-4 col-md-6 col-sm-6">
@@ -415,12 +422,12 @@
                     return newh;
                   })
 
-                // Apply scaled y axis    
+                // Apply scaled y axis
                 d3.selectAll("g.y.axis")
                   .transition()
                   .call(yAxis);
 
-                // Apply scaled x axis    
+                // Apply scaled x axis
                 d3.selectAll("g.x.axis")
                   .transition()
                   .call(xAxis);
