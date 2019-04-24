@@ -30,7 +30,7 @@
       <div class="logo">
         <a href="" class="simple-text logo-mini">
           <div class="logo-image-small">
-            <img src="flask_site/static/logo-small.png">
+            <img src="flask_site/static/assets/img/logo-small.png">
           </div>
         </a>
         <a href="" class="simple-text logo-normal">
@@ -125,32 +125,31 @@
 
           <div class="col-lg-4 col-md-6 col-sm-6">
 
-              <div class="card card-stats">
-                <div class="card-body ">
-                  <div class="row">
-                    <div class="col-md-4 offset-md-4">
-                      <div class="icon-big">
-                        <i class="nc-icon nc-cloud-upload-94"></i>
-                      </div>
+            <div class="card card-stats">
+              <div class="card-body ">
+                <div class="row">
+                  <div class="col-md-4 offset-md-4">
+                    <div class="icon-big">
+                      <i class="nc-icon nc-cloud-upload-94"></i>
                     </div>
                   </div>
                 </div>
-
-                <form method=post enctype=multipart/form-data action="/"> <input type=file
-                    name=file>
-                  <!-- <div class="card-footer"> <p class="stats offset-md-4"> Upload Here </p></div> -->
-                  <input type=submit value=Submit >
-                </form>
-                {% with messages = get_flashed_messages() %}
-                 {% if messages %}
-                  {% for message in messages %}
-                    {{ message }}
-                  {% endfor %}
-                 {% endif %}
-                {% endwith %}
-
               </div>
-          
+
+              <form method=post enctype=multipart/form-data action="/"> <input type=file name=file>
+                <!-- <div class="card-footer"> <p class="stats offset-md-4"> Upload Here </p></div> -->
+                <input type=submit value=Submit>
+              </form>
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+              {% for message in messages %}
+              {{ message }}
+              {% endfor %}
+              {% endif %}
+              {% endwith %}
+
+            </div>
+
           </div>
 
           <div class="col-lg-4 col-md-6 col-sm-6">
