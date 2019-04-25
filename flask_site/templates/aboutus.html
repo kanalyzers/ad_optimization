@@ -30,7 +30,7 @@
       <div class="logo">
         <a href="#" class="simple-text logo-mini">
           <div class="logo-image-small">
-            <img src="flask_site/static/assets/img/logo-small.png">
+            <img src= {{url_for('static', filename='assets/img/logo-small.png')}}>
           </div>
         </a>
         <a href="" class="simple-text logo-normal">
@@ -131,13 +131,12 @@
           <div class="col-md-4">
             <div class="card card-user">
               <div class="image">
-                <img src="flask_site/static/pics/juliaback2.jpg" alt="...">
+                <img src={{url_for('static', filename='pics/juliaback2.jpg')}} alt="...">
               </div>
               <div class="card-body">
                 <div class="author">
                   <a href="#">
-                    <img class="avatar border-gray" src="flask_site/static/pics/julia.png"
-                      alt="...">
+                    <img class="avatar border-gray" src= {{url_for('static', filename='pics/julia.png')}} alt="...">
                     <h5 class="title">Julia Kang</h5>
                   </a>
                   <p class="description">
@@ -176,12 +175,12 @@
           <div class="col-md-4">
             <div class="card card-user">
               <div class="image">
-                <img src="flask_site/static/pics/juliaback.jpg" alt="...">
+                <img src={{url_for('static', filename='pics/juliaback2.jpg')}} alt="...">
               </div>
               <div class="card-body">
                 <div class="author">
                   <a href="#">
-                    <img class="avatar border-gray" src="flask_site/static/pics/sam.jpeg" alt="...">
+                    <img class="avatar border-gray" src={{url_for('static', filename='pics/sam.jpeg')}} alt="...">
                     <h5 class="title">Sam Kahr</h5>
                   </a>
                   <p class="description">
@@ -220,12 +219,12 @@
           <div class="col-md-4">
             <div class="card card-user">
               <div class="image">
-                <img src="" alt="...">
+                <img src={{url_for('static', filename='pics/juliaback2.jpg')}} alt="...">
               </div>
               <div class="card-body">
                 <div class="author">
                   <a href="#">
-                    <img class="avatar border-gray" src="flask_site/static/pics/ryan.jpeg"
+                    <img class="avatar border-gray" src={{url_for('static', filename='pics/ryan.jpeg')}}
                       alt="...">
                     <h5 class="title">Ryan Koch</h5>
                   </a>

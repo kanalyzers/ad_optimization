@@ -8,4 +8,4 @@ runtime_config:
 env_variables:
   CLOUD_STORAGE_BUCKET: kanalyzers.appspot.com
   MODEL_BUCKET: kanalyzers.appspot.com
-  MODEL_FILENAME: tf_model.h5
+  # MODEL_FILENAME: tf_model.h5

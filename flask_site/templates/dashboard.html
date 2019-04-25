@@ -30,7 +30,7 @@
       <div class="logo">
         <a href="" class="simple-text logo-mini">
           <div class="logo-image-small">
-            <img src="flask_site/static/logo-small.png">
+            <img src={{url_for('static', filename='assets/img/logo-small.png')}}>
           </div>
         </a>
         <a href="" class="simple-text logo-normal">
@@ -143,14 +143,14 @@
                 </form>
                 {% with messages = get_flashed_messages() %}
                  {% if messages %}
-                  {% for message in messages %}
+                  <!-- {% for message in messages %} -->
                     {{ message }}
-                  {% endfor %}
+                  <!-- {% endfor %} -->
                  {% endif %}
                 {% endwith %}
 
               </div>
-          
+
           </div>
 
           <div class="col-lg-4 col-md-6 col-sm-6">
@@ -191,7 +191,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Clicks</p>
-                      <p class="card-title">23
+                      <p class="card-title" id="clairesmells">23
                         <p>
                     </div>
                   </div>
@@ -247,11 +247,12 @@
           </div>
         </div> <!--             end of col-->
 
+        <script src='https://d3js.org/d3.v4.min.js'></script>
         <script>
 
           // set the dimensions and margins of the graph
-          var margin = { top: 20, right: 20, bottom: 40, left: 60 },
-            width = 700 - margin.left - margin.right,
+          var margin = { top: 20, right: 100, bottom: 30, left: 60 },
+            width = 800 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
 
           // Create the svg canvas in the "graph" div
@@ -267,8 +268,12 @@
 
 
           // Get the data
-          d3.csv("ad_optimization/flask_site/static/data/choice_features.csv", function (error, data) {
+          // d3.csv("clickpredictions.csv", function (error, data) {
+          //   if (error) throw error;
+
+            d3.csv("{{url_for('static', filename='data/clickpredictions.csv')}}", function (error, data) {
             if (error) throw error;
+
 
             // Set the ranges
             var x = d3.scaleBand().rangeRound([0, width]).padding(0.1)
@@ -279,8 +284,19 @@
               .filter(function (d) {
                 return ((d != "click"));
               });
-            var selection = elements[0];
+            var selection = elements[3];
             console.log(selection);
+
+            var displayClick = 0;
+
+            data.forEach(function(d) {
+              let click = parseInt(d.click)
+              displayClick += click;
+              // return displayClick;
+            })
+            console.log(displayClick)
+
+           document.getElementById("clairesmells").innerHTML = displayClick;
 
             var chartTitle = "Clicks by " + selection;
             d3.select("#bar-graph-title")
@@ -293,6 +309,7 @@
               .rollup(function (v) { return d3.sum(v, function (d) { return d.click; }); })
               .entries(data);
             console.log("TotalClicks");
+            console.log()
             console.log(JSON.stringify(clicksTotal));
 
             var y = d3.scaleLinear()
@@ -315,7 +332,6 @@
               .attr("y", height + 30)
               .text("Categories");
 
-
             var yAxis = d3.axisLeft()
               .scale(y)
 
@@ -328,7 +344,6 @@
               .attr("transform", "rotate(-90)")
               .text("Total Clicks");
 
-
             // Draw y axis
             svg.append("g")
               .attr("class", "y axis")
@@ -339,20 +354,20 @@
               .attr("class", "x axis")
               .attr("transform", "translate(0," + height + ")")
               .call(xAxis)
-            //                    .selectAll("text")
-            //                    .style("font-size", "8px")
-            //                    .style("text-anchor", "end")
+              .selectAll("text")
+              .style("font-size", "8px")
+              .style("text-anchor", "end")
 
-            //                 Draw the bars
-            svg.selectAll(".rect")
+            //              Draw the bars - FIRST TIME
+            svg.selectAll("rectangle")
               .data(clicksTotal)
               .enter()
               .append("rect")
               .attr("class", "rectangle")
               .attr("x", function (d) { return x(d.key); })
               .attr("y", function (d) { return y(d.value); })
-              .attr("width", x.bandwidth())
-              .attr("height", function (d) { return height - y(d.value); });
+              .attr("width", width / (clicksTotal.length + 1))
+              .attr("height", function (d) { console.log('testing', height, d.value); return height - y(d.value); });
 
             var selector = d3.select("#drop")
               .append("select")
@@ -422,6 +437,8 @@
                     return newh;
                   })
 
+                console.log("Bars done")
+
                 // Apply scaled y axis
                 d3.selectAll("g.y.axis")
                   .transition()
@@ -433,7 +450,7 @@
                   .call(xAxis);
 
                 //                console.log(selection)
-              });
+              }); //End of on change function
 
             selector.selectAll("option")
               .data(elements)
@@ -487,7 +504,7 @@
   <!--  Notifications Plugin    -->
   <script src="../static/assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../static/assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
+  <script src="../static/assets/js/paper-dashboard.min.js" type="text/javascript"></script>
   <script>
     $(document).ready(function () {
       demo.initChartsPages();

@@ -99,17 +99,19 @@ def upload(filename):
     #looping through returned predictions to get all probilities returned by model
     ret = []
     for p in response['predictions']:
-        if p['dense_2'][0] > 0.5:
+        if p['dense_2'][0] > 0.25:
             p = 1
         else:
             p = 0
         ret.append(p)
 
     df = pd.read_csv(UPLOAD_FOLDER+'/'+filename)
-    df.insert(0, "clicks", ret )
-    df.to_csv(UPLOAD_FOLDER+"/clickpredictions.csv", index=False)
+    df.insert(0, "click", ret )
+    #df.to_csv(UPLOAD_FOLDER+"/clickpredictions.csv", index=False)
+    df.to_csv("static/data/clickpredictions.csv", index=False)
 
-    flash("  Success!!")
+
+    flash("Predictions Succesfully Retrieved!")
 
     # values = ', '.join(str(v) for v in ret)
     #
@@ -143,19 +145,6 @@ def upload_file():
 
     return render_template('dashboard.html')
 
-
-# load model
-# @app.before_first_request
-# # def _load_model():
-# #     #global MODEL
-# #     client = storage.Client()
-# #     bucket = client.get_bucket(MODEL_BUCKET)
-# #     blob = bucket.get_blob(MODEL_FILENAME)
-# #     s = blob.download_as_string()
-# #
-# #     s
-#
-# #  routes
 @app.route('/uploads')
 def uploads():
     pass

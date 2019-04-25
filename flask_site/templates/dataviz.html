@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="../static/assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../static/assets/img/favicon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href={{url_for('static', filename='assets/img/apple-icon.png')}}>
+  <link rel="icon" type="image/png" href={{url_for('static', filename='assets/img/favicon.png')}}>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
     Data Viz | Ad Clicks
@@ -21,6 +21,7 @@
   <link href="../static/assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
   <!--    d3.js-->
   <script src='https://d3js.org/d3.v4.min.js'></script>
+  <!-- {{ url_for('static', filename='style.css') }} -->
 
 <body class="">
   <div class="wrapper ">
@@ -31,7 +32,7 @@
       <div class="logo">
         <a href="" class="simple-text logo-mini">
           <div class="logo-image-small">
-            <img src="flask_site/static/logo-small.png">
+            <img src={{url_for('static', filename='assets/img/logo-small.png')}}>
           </div>
         </a>
         <a href="" class="simple-text logo-normal">
@@ -125,6 +126,7 @@
               </div>
 
               <div class="customdrop" id="drop" align="center"></div>
+
               <br>
 
               <script>
@@ -147,7 +149,7 @@
 
 
                 // Get the data
-                d3.csv("uploads/clickpredictions.csv", function (error, data) {
+                d3.csv("clickpredictions.csv", function (error, data) {
                   if (error) throw error;
 
                   // Set the ranges
@@ -230,7 +232,7 @@
                     .attr("x", function (d) { return x(d.key); })
                     .attr("y", function (d) { return y(d.value); })
                     .attr("width", width / (clicksTotal.length + 1))
-                    .attr("height", function (d) { return height - y(d.value); });
+                    .attr("height", function (d) { console.log('testing', height, d.value); return height - y(d.value); });
 
                   var selector = d3.select("#drop")
                     .append("select")
