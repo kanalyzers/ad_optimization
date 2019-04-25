@@ -136,20 +136,19 @@
                 </div>
               </div>
 
-                <form method=post enctype=multipart/form-data action="/"> <input type=file
-                    name=file>
-                  <!-- <div class="card-footer"> <p class="stats offset-md-4"> Upload Here </p></div> -->
-                  <input type=submit value=Submit >
-                </form>
-                {% with messages = get_flashed_messages() %}
-                 {% if messages %}
-                  <!-- {% for message in messages %} -->
-                    {{ message }}
-                  <!-- {% endfor %} -->
-                 {% endif %}
-                {% endwith %}
+              <form method=post enctype=multipart/form-data action="/"> <input type=file name=file>
+                <!-- <div class="card-footer"> <p class="stats offset-md-4"> Upload Here </p></div> -->
+                <input type=submit value=Submit>
+              </form>
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+              <!-- {% for message in messages %} -->
+              {{ message }}
+              <!-- {% endfor %} -->
+              {% endif %}
+              {% endwith %}
 
-              </div>
+            </div>
 
           </div>
 
@@ -271,7 +270,7 @@
           // d3.csv("clickpredictions.csv", function (error, data) {
           //   if (error) throw error;
 
-            d3.csv("{{url_for('static', filename='data/clickpredictions.csv')}}", function (error, data) {
+          d3.csv("{{url_for('static', filename='data/clickpredictions.csv')}}", function (error, data) {
             if (error) throw error;
 
 
@@ -289,14 +288,14 @@
 
             var displayClick = 0;
 
-            data.forEach(function(d) {
+            data.forEach(function (d) {
               let click = parseInt(d.click)
               displayClick += click;
               // return displayClick;
             })
             console.log(displayClick)
 
-           document.getElementById("clairesmells").innerHTML = displayClick;
+            document.getElementById("clairesmells").innerHTML = displayClick;
 
             var chartTitle = "Clicks by " + selection;
             d3.select("#bar-graph-title")
@@ -467,7 +466,7 @@
 
         </script>
 
-        <a href="dataviz.html"> CLICK FOR DATA VIZ </a>
+        <!-- <a href="dataviz.html"> CLICK FOR DATA VIZ </a> -->
         <!--        End of class = content-->
       </div>
 
