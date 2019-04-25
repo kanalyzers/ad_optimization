@@ -5,3 +5,4 @@ google-api-python-client>=1.6.7
 oauth2client>=4.1.2
 pandas
 pymsgbox
+python-dotenv
