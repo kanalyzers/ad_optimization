@@ -268,7 +268,8 @@
         </div> <!--             end of col-->
 
         <script src='https://d3js.org/d3.v4.min.js'></script>
-        <script>
+         <!-- <script  src="{{ url_for('static', filename='d3/dimensions.js') }}"> -->
+         <script>
 
           // set the dimensions and margins of the graph
           var margin = { top: 20, right: 100, bottom: 30, left: 60 },
@@ -290,6 +291,8 @@
           // Get the data
           // d3.csv("clickpredictions.csv", function (error, data) {
           //   if (error) throw error;
+
+
 
             d3.csv("{{url_for('static', filename='data/clickpredictions.csv')}}", function (error, data) {
             if (error) throw error;

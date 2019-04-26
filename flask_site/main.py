@@ -72,6 +72,7 @@ def csvtojson(filename):
 
 
 @app.route('/uploads/<filename>')
+
 def upload(filename):
     # Sending uploaded CSV to our Cloud ML model
     service = discovery.build('ml', 'v1')
