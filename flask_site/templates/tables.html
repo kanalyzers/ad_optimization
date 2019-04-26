@@ -30,7 +30,7 @@
       <div class="logo">
         <a href="#" class="simple-text logo-mini">
           <div class="logo-image-small">
-            <img src="flask_site/static/assets/img/logo-small.png">
+            <img src={{url_for('static', filename='assets/img/logo-small.png')}}>
           </div>
         </a>
         <a href="#" class="simple-text logo-normal">
@@ -124,132 +124,48 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> Ad Predictions </h4>
+                <h4 class="card-title"> Click Predictions </h4>
               </div>
               <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table">
-                    <thead class=" text-primary">
-                      <th>
-                        Ad ID
-                      </th>
-                      <th>
-                        Date
-                      </th>
-                      <th>
-                        Device ID
-                      </th>
-                      <th class="text-right">
-                        Click
-                      </th>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          Dakota Rice
-                        </td>
-                        <td>
-                          Niger
-                        </td>
-                        <td>
-                          Oud-Turnhout
-                        </td>
-                        <td class="text-right">
-                          0
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Minerva Hooper
-                        </td>
-                        <td>
-                          Curaçao
-                        </td>
-                        <td>
-                          Sinaai-Waas
-                        </td>
-                        <td class="text-right">
-                          0
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Sage Rodriguez
-                        </td>
-                        <td>
-                          Netherlands
-                        </td>
-                        <td>
-                          Baileux
-                        </td>
-                        <td class="text-right">
-                          1
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Philip Chaney
-                        </td>
-                        <td>
-                          Korea, South
-                        </td>
-                        <td>
-                          Overland Park
-                        </td>
-                        <td class="text-right">
-                          0
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Doris Greene
-                        </td>
-                        <td>
-                          Malawi
-                        </td>
-                        <td>
-                          Feldkirchen in Kärnten
-                        </td>
-                        <td class="text-right">
-                          1
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Mason Porter
-                        </td>
-                        <td>
-                          Chile
-                        </td>
-                        <td>
-                          Gloucester
-                        </td>
-                        <td class="text-right">
-                          0
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Jon Porter
-                        </td>
-                        <td>
-                          Portugal
-                        </td>
-                        <td>
-                          Gloucester
-                        </td>
-                        <td class="text-right">
-                          0
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div class="table-responsive" id="table">
+
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <!-- <script src="d3min.js?v=3.2.8" href="{{ url_for('static', filename='d3min.js') }}"></script> -->
+
+        <script type="text/javascript"charset="utf-8">
+            d3.text("{{url_for('static', filename='data/clickpredictions.csv')}}", function(data) {
+
+
+              var parsedCSV = d3.csv.parseRows(data);
+
+              var container = d3.select("#table")
+                .append("div").attr("class", "container")
+                .append("table").attr("class", "table table-hover")
+                .append("tbody")
+
+              .selectAll("tr")
+                .data(parsedCSV).enter()
+                .append("tr")
+
+              .selectAll("td")
+                .data(function(d) {
+                  return d;
+                }).enter()
+                .append("td")
+                .text(function(d) {
+                  return d;
+      });
+            });
+        </script>
+
       <footer class="footer footer-black  footer-white ">
         <div class="container-fluid">
           <div class="row">
