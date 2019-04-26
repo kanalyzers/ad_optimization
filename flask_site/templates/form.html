@@ -133,15 +133,15 @@
                 <h5 class="card-title"> Upload Data</h5>
               </div>
               <div class="card-body">
-                <form action="dashboard.html" method="post">
+                <!-- <form action="dashboard.html" method="post"> -->
 
                   <div class="row">
                     <div class="col-md-6 pr-1">
                       <div class="">
                         <label> Upload File: </label>
                         <br>
-                        <input type="file" class="form-control" id="file"
-                          formenctype="multipart/form-data" required>
+                        <form method=post enctype=multipart/form-data action="/"> <input type=file
+                            name=file>
                       </div>
                     </div>
                   </div>
@@ -156,8 +156,8 @@
                     </div>
                     <div class="col-md-7 pl-1">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" placeholder="Email" required>
+                        <!-- <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" class="form-control" placeholder="Email" required> -->
                       </div>
                     </div>
                   </div>
@@ -182,17 +182,23 @@
                       <div class="form-group">
                         <label>Notes</label>
                         <textarea
-                          class="form-control textarea"> This form will work. The file will upload and we will finish this project. </textarea>
+                          class="form-control textarea"> Add notes here </textarea>
                       </div>
                     </div>
                   </div>
                   <div class="row">
+
                     <div class="update ml-auto mr-auto">
+                      <input class="btn btn-round" type=submit value=Submit action="/">
+
                       <a class="btn btn-round" href="./dashboard.html">Return Home </a>
                     </div>
 
                     <div class="update ml-auto mr-auto">
-                      <button type="submit" class="btn btn-primary btn-round"> Submit </button>
+                      <!-- <form method=post enctype=multipart/form-data action="/"> <input type=file
+                          name=file>
+                        <input type=submit value=Submit >
+                      </form> -->
                     </div>
                   </div>
                 </form>

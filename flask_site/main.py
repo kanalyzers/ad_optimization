@@ -110,8 +110,10 @@ def upload(filename):
     #df.to_csv(UPLOAD_FOLDER+"/clickpredictions.csv", index=False)
     df.to_csv("static/data/clickpredictions.csv", index=False)
 
-
-    flash("Predictions Succesfully Retrieved!")
+    filename = str(filename)
+    flash("Predictions Succesfully Retrieved!", "upload")
+    flash("From file " + filename, "fromfile")
+    # flash(" + filename + ", "fromfile")
 
     # values = ', '.join(str(v) for v in ret)
     #

@@ -125,8 +125,10 @@
 
           <div class="col-lg-4 col-md-6 col-sm-6">
 
+          <a href="./form.html">
             <div class="card card-stats">
               <div class="card-body ">
+                <h4 class="card-title d-flex justify-content-center ">Click to Upload Data</h4>
                 <div class="row">
                   <div class="col-md-4 offset-md-4">
                     <div class="icon-big">
@@ -136,20 +138,23 @@
                 </div>
               </div>
 
-                <form method=post enctype=multipart/form-data action="/"> <input type=file
+                <!-- <form method=post enctype=multipart/form-data action="/"> <input type=file
                     name=file>
-                  <!-- <div class="card-footer"> <p class="stats offset-md-4"> Upload Here </p></div> -->
+
                   <input type=submit value=Submit >
-                </form>
-                {% with messages = get_flashed_messages() %}
-                 {% if messages %}
-                  <!-- {% for message in messages %} -->
-                    {{ message }}
-                  <!-- {% endfor %} -->
+                </form> -->
+              <div class="card-footer d-flex justify-content-center ">
+                {% with upload = get_flashed_messages(category_filter=['upload']) %}
+                 {% if upload %}
+                  {% for mess in upload %}
+                    {{ mess }}
+                  {% endfor %}
                  {% endif %}
                 {% endwith %}
+              </div>
 
               </div>
+            </a>
 
           </div>
 
@@ -164,8 +169,8 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Expected Revenue</p>
-                      <p class="card-title">$ 1,345
+                      <p class="card-category">Expected CTR</p>
+                      <p class="card-title" id="expectedctr">
                         <p>
                     </div>
                   </div>
@@ -174,7 +179,14 @@
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-calendar-o"></i> Last day
+                  <!-- <i class="fa fa-calendar-o"></i> Last day -->
+                <p>  {% with files = get_flashed_messages(category_filter=['fromfile']) %}
+                   {% if files %}
+                    {% for mess in files %}
+                      {{ mess }}
+                    {% endfor %}
+                   {% endif %}
+                  {% endwith %} </p>
                 </div>
               </div>
             </div>
@@ -191,16 +203,24 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Clicks</p>
-                      <p class="card-title" id="clairesmells">23
+                      <p class="card-title" id="clairesmells">
                         <p>
                     </div>
+
                   </div>
                 </div>
               </div>
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-clock-o"></i> In the last hour
+                  <!-- <i class="fa fa-clock-o"></i> In the last hour -->
+                  <p>  {% with files = get_flashed_messages(category_filter=['fromfile']) %}
+                     {% if files %}
+                      {% for mess in files %}
+                        {{ mess }}
+                      {% endfor %}
+                     {% endif %}
+                    {% endwith %} </p>
                 </div>
               </div>
             </div>
@@ -292,11 +312,23 @@
             data.forEach(function(d) {
               let click = parseInt(d.click)
               displayClick += click;
-              // return displayClick;
             })
-            console.log(displayClick)
+            console.log(displayClick);
 
            document.getElementById("clairesmells").innerHTML = displayClick;
+
+           var rowCount = 0
+           data.forEach(function(d) {
+             if (d.click) {
+               rowCount++
+             }
+           })
+
+           console.log(rowCount);
+
+           var CTR = displayClick/rowCount;
+          document.getElementById("expectedctr").innerHTML = CTR + "%";
+
 
             var chartTitle = "Clicks by " + selection;
             d3.select("#bar-graph-title")
@@ -461,7 +493,6 @@
               .text(function (d) {
                 return d;
               })
-
 
           });
 
