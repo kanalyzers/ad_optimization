@@ -3,6 +3,7 @@ Train a machine learning model to predict whether a particular user will click o
 
 # Website
 https://kanalyzers.appspot.com/
+ *note: when uploading a CSV the CSV must have 24 columns
 
 # Background
 Determining whether advertisers will click on an ad on a mobile platform is a question that encapsulates increasing market value as mobile advertising revenue explodes. In FY 2017 mobile ad revenue grew to $49.9B (+36% YoY) in 2017. This increase in the mobile ad market means mobile is increasingly relevant to overall marketing ROI and more and more data is available to train machine learning models. 
@@ -64,9 +65,9 @@ jupyter notebook —ip=0.0.0.0 --port=8888 --no-browser &
 ## Machine Learning / Data 
 - Preprocess and feature engineer data with Pandas, Numpy, scikit learn and 
 - iteratively train and evaluate predictive classification models:
- - * - SGDClassifier
- - * - Random Forest
- - * - Tensorfolow: Multi-layer Perceptron Neural Net
+ - SGDClassifier
+ - Random Forest
+ - Tensorfolow: Multi-layer Perceptron Neural Net
 
 # Tools used
 * Visual Studio Code with SFTP OR browser Compute Engine ```ssh```
@@ -104,11 +105,10 @@ jupyter notebook —ip=0.0.0.0 --port=8888 --no-browser &
     * device_type
  - Features converted to numeric data types
  - Removed C1, C14, C17-21
- - feature engineered:
+ - Feature engineered:
     * Date
     * Time
     * User counts
- - Bagged:
     
 
     
