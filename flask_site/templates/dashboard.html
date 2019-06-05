@@ -129,13 +129,20 @@
               <div class="card card-stats">
                 <div class="card-body ">
                   <h4 class="card-title d-flex justify-content-center ">Click to Upload Data</h4>
+
                   <div class="row">
+
                     <div class="col-md-4 offset-md-4">
                       <div class="icon-big">
                         <i class="nc-icon nc-cloud-upload-94"></i>
                       </div>
+
                     </div>
+
                   </div>
+                  <h8 class="card-title d-flex justify-content-center ">Data must be in CSV
+                    format
+                    with exactly 22 columns. Greater functionality coming soon.</h8>
                 </div>
 
                 <!-- <form method=post enctype=multipart/form-data action="/"> <input type=file
@@ -506,7 +513,6 @@
 
                 .attr("height", function (d) {
                   newh = height - y(d.value)
-                  //                            console.log("HEIGHT: " + newh)
                   return newh;
                 })
 
@@ -522,7 +528,6 @@
                 .transition()
                 .call(xAxis);
 
-              //                console.log(selection)
             }); //End of on change function
 
           selector.selectAll("option")
