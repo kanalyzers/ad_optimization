@@ -2,8 +2,9 @@
 Train a machine learning model to predict whether a particular user will click on an ad or not based on training data from the Avazu advertising platform provided by Criteo Labs 
 
 # Website
-https://kanalyzers.appspot.com/
- *note: when uploading a CSV the CSV must have 24 columns
+ * https://kanalyzers.appspot.com/
+ * note: when uploading a CSV, the CSV must have 22 columns. Additional functionality coming soon.
+ * It is recommended to use the `ad_optimization/flask_site/uploads/demofeatures1.csv` to understand how the MVP work. The CSV 'demofeatures1.csv' within this repo is the best CSV to use to understand the full capacity and utility of our web tool in it's current state of development. 
 
 # Background
 Determining whether advertisers will click on an ad on a mobile platform is a question that encapsulates increasing market value as mobile advertising revenue explodes. In FY 2017 mobile ad revenue grew to $49.9B (+36% YoY) in 2017. This increase in the mobile ad market means mobile is increasingly relevant to overall marketing ROI and more and more data is available to train machine learning models. 
